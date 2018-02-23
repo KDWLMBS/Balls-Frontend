@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import Test from '@/components/Test'
+import Auth from '@/components/Auth'
+import Register from '@/components/Register'
 
 Vue.use(Router)
 
@@ -13,10 +14,10 @@ const routes = [
     meta: {requiresAuth: false}
   },
   {
-    path: '/test',
-    name: 'Test',
-    component: Test,
-    meta: {requiresAuth: true}
+    path: '/register',
+    name: 'Register',
+    component: Register,
+    meta: {requiresAuth: false}
   }
 ]
 
