@@ -80,6 +80,7 @@
         </a>
       </li>
     </ul>
+    <p>ALLOWED</p>
   </div>
 </template>
 
