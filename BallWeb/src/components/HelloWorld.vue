@@ -17,7 +17,7 @@
           target="_blank"
         >
           Forum
-        </a>
+        </a>dein
       </li>
       <li>
         <a
@@ -80,6 +80,7 @@
         </a>
       </li>
     </ul>
+    <p>ALLOWED</p>
   </div>
 </template>
 
