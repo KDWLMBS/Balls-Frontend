@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import BallWall from '@/components/BallWall'
 import Register from '@/components/Register'
 
 Vue.use(Router)
@@ -8,8 +8,8 @@ Vue.use(Router)
 const routes = [
   {
     path: '/',
-    name: 'HelloWorld',
-    component: HelloWorld,
+    name: 'BallWall',
+    component: BallWall,
     meta: {requiresAuth: false}
   },
   {
