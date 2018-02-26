@@ -17,14 +17,14 @@ export default {
     },
     [LOGIN_SUCCESS] (state) {
       state.isLoggedIn = true
-      stare.pending = false
+      state.pending = false
     },
     [LOGOUT] (state) {
       state.isLoggedIn = false
     }
   },
   actions: {
-    login({commit}, creds) {
+    login ({commit}, creds) {
       commit(LOGIN)
       return new Promise(resolve => {
         setTimeout(() => {
@@ -34,7 +34,7 @@ export default {
         }, 1000)
       })
     },
-    logout({commit}) {
+    logout ({commit}) {
       localStorage.removeItem('token')
       commit(LOGOUT)
     }

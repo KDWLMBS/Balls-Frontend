@@ -1,13 +1,19 @@
 <template>
   <div id="app">
-    <!--<img src="./assets/logo.png">-->
+    <bw-nav></bw-nav>
+    <img src="./assets/logo.png">
     <router-view/>
   </div>
 </template>
 
 <script>
+import bwNav from '@/components/bwNav'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    bwNav
+  }
 }
 </script>
 
