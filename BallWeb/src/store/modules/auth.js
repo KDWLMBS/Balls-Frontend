@@ -1,5 +1,7 @@
 const LOGIN = 'LOGIN'
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+const SIGNUP = 'LOGIN'
+const SIGNUP_SUCCESS = 'LOGIN_SUCCESS'
 const LOGOUT = 'LOGOUT'
 
 export default {
@@ -19,6 +21,12 @@ export default {
       state.isLoggedIn = true
       state.pending = false
     },
+    [SIGNUP] (state) {
+
+    },
+    [SIGNUP_SUCCESS] (state) {
+
+    },
     [LOGOUT] (state) {
       state.isLoggedIn = false
     }
@@ -33,6 +41,9 @@ export default {
           resolve()
         }, 1000)
       })
+    },
+    signup ({commit}, creds) {
+      console.log(creds)
     },
     logout ({commit}) {
       localStorage.removeItem('token')

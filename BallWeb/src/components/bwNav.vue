@@ -1,5 +1,8 @@
 <template>
-  <h1>isLoggedIn: {{isLoggedIn}}</h1>
+  <div>
+    <h1>isLoggedIn: {{isLoggedIn}}</h1>
+    <font-awesome-icon :icon="['fas', 'sign-out-alt']" />
+  </div>
 </template>
 
 <script>
