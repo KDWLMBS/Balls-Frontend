@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import Auth from '@/components/Auth'
 import Register from '@/components/Register'
 
 Vue.use(Router)
@@ -21,7 +20,7 @@ const routes = [
   }
 ]
 
-const router = new Router({routes});
+const router = new Router({routes})
 
 router.beforeEach((to, from, next) => {
   console.log(to, from, next)

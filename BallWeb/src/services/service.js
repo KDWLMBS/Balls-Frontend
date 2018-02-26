@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default () => {
-    return axios.create({
-        baseURL: `http://localhost:9090/api/auth/signup`
-    })
+  return axios.create({
+    baseURL: `http://localhost:9090/api/auth`
+  })
 }
