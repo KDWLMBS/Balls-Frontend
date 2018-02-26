@@ -2,6 +2,7 @@
   <div>
     <font-awesome-icon :icon="['fas', 'sign-out-alt']" />
     <router-link to="/login" v-if="!isLoggedIn">Login</router-link>
+    <router-link to="/register" v-if="!isLoggedIn">Register</router-link>
     <a href = "#" v-if="isLoggedIn" @click="logout">Logout</a>
   </div>
 </template>
