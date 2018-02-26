@@ -1,94 +1,42 @@
-import auth from '../../api/auth'
-
-// initial state
-// shape: [{ id, quantity }]
-const state = {
-  authenticated: false,
-  name: null,
-  email: null
-}
-
-// getters
-const getters = {
-  isAuthenticated: state => state.authenticated,
-
-  cartProducts: (state, getters, rootState) => {
-    return state.added.map(({ id, quantity }) => {
-      const product = rootState.products.all.find(product => product.id === id)
-      return {
-        title: product.title,
-        price: product.price,
-        quantity
-      }
-    })
-  },
-
-  cartTotalPrice: (state, getters) => {
-    return getters.cartProducts.reduce((total, product) => {
-      return total + product.price * product.quantity
-    }, 0)
-  }
-}
-
-// actions
-const actions = {
-  checkout ({ commit, state }, products) {
-    const savedCartItems = [...state.added]
-    commit('setCheckoutStatus', null)
-    // empty cart
-    commit('setCartItems', { items: [] })
-    shop.buyProducts(
-      products,
-      () => commit('setCheckoutStatus', 'successful'),
-      () => {
-        commit('setCheckoutStatus', 'failed')
-        // rollback to the cart saved before sending the request
-        commit('setCartItems', { items: savedCartItems })
-      }
-    )
-  },
-
-  addProductToCart ({ state, commit }, product) {
-    commit('setCheckoutStatus', null)
-    if (product.inventory > 0) {
-      const cartItem = state.added.find(item => item.id === product.id)
-      if (!cartItem) {
-        commit('pushProductToCart', { id: product.id })
-      } else {
-        commit('incrementItemQuantity', cartItem)
-      }
-      // remove 1 item from stock
-      commit('decrementProductInventory', { id: product.id })
-    }
-  }
-}
-
-// mutations
-const mutations = {
-  pushProductToCart (state, { id }) {
-    state.added.push({
-      id,
-      quantity: 1
-    })
-  },
-
-  incrementItemQuantity (state, { id }) {
-    const cartItem = state.added.find(item => item.id === id)
-    cartItem.quantity++
-  },
-
-  setCartItems (state, { items }) {
-    state.added = items
-  },
-
-  setCheckoutStatus (state, status) {
-    state.checkoutStatus = status
-  }
-}
+const LOGIN = 'LOGIN'
+const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+const LOGOUT = 'LOGOUT'
 
 export default {
-  state,
-  getters,
-  actions,
-  mutations
+  state: {
+    isLoggedIn: !!localStorage.getItem('token')
+  },
+  getters: {
+    isLoggedIn: state => {
+      return state.isLoggedIn
+    }
+  },
+  mutations: {
+    [LOGIN] (state) {
+      state.pending = true
+    },
+    [LOGIN_SUCCESS] (state) {
+      state.isLoggedIn = true
+      stare.pending = false
+    },
+    [LOGOUT] (state) {
+      state.isLoggedIn = false
+    }
+  },
+  actions: {
+    login({commit}, creds) {
+      commit(LOGIN)
+      return new Promise(resolve => {
+        setTimeout(() => {
+          localStorage.setItem('token', 'JWT')
+          commit(LOGIN_SUCCESS)
+          resolve()
+        }, 1000)
+      })
+    },
+    logout({commit}) {
+      localStorage.removeItem('token')
+      commit(LOGOUT)
+    }
+  }
 }
