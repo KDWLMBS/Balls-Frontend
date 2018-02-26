@@ -1,22 +1,22 @@
 <template>
    <div>
      <h1>Register</h1>
-     <input 
-      type="name" 
+     <input
+      type="name"
       name="name"
-      v-model="name" 
+      v-model="name"
       placeholder="Name"/>
      <br>
-     <input 
-      type="email" 
-      name="email" 
-      v-model="email" 
+     <input
+      type="email"
+      name="email"
+      v-model="email"
       placeholder="Email"/>
      <br>
-     <input 
-      type="password" 
+     <input
+      type="password"
       name="password"
-      v-model="password" 
+      v-model="password"
       placeholder="Password"/>
      <br>
      <button @click="register">Register</button>
@@ -24,29 +24,25 @@
 </template>
 
 <script>
+import AuthenticationService from '@/services/AuthenticationService'
 export default {
   data () {
     return {
-      name:'',
+      name: '',
       email: '',
       password: ''
 
     }
   },
-  methods:  {
-    async register() {
-      
+  methods: {
+    async register () {
+      const response = await AuthenticationService.register({
+        name: this.name,
+        email: this.email,
+        password: this.password
+      })
+      console.log(response.data)
     }
-  },
-  watch: {
-    email(value){
-      console.log('email has changed', value)
-    }
-  },
-  mounted () {
-    setTimeout(() => {
-      this.email = 'hello world'
-    }, 2000)
   }
 }
 </script>
