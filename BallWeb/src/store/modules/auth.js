@@ -1,3 +1,5 @@
+import authService from '../../api/auth'
+
 const LOGIN = 'LOGIN'
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 const SIGNUP = 'LOGIN'
@@ -44,6 +46,12 @@ export default {
     },
     signup ({commit}, creds) {
       console.log(creds)
+      commit(SIGNUP)
+      authService.signup(creds).then(res => {
+        console.log(res)
+        localStorage.setItem('token', res.data.token)
+        commit(SIGNUP_SUCCESS)
+      })
     },
     logout ({commit}) {
       localStorage.removeItem('token')

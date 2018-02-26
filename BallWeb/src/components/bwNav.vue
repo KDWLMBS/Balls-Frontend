@@ -1,6 +1,6 @@
 <template>
   <div>
-    <font-awesome-icon :icon="['fas', 'sign-out-alt']" />
+    <font-awesome-icon :icon="['fas', 'sign-out-alt']" v-if="isLoggedIn" @click="logout" />
     <router-link to="/login" v-if="!isLoggedIn">Login</router-link>
     <a href = "#" v-if="isLoggedIn" @click="logout">Logout</a>
   </div>
