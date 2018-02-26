@@ -19,12 +19,11 @@
       v-model="password"
       placeholder="Password"/>
      <br>
-     <button @click="register">Register</button>
+     <button @click="signup">Register</button>
    </div>
 </template>
 
 <script>
-import AuthenticationService from '@/services/AuthenticationService'
 export default {
   data () {
     return {
@@ -35,13 +34,14 @@ export default {
     }
   },
   methods: {
-    async register () {
-      const response = await AuthenticationService.register({
+    signup () {
+      this.$store.dispatch('signup', {
         name: this.name,
         email: this.email,
         password: this.password
+      }).then(() => {
+        this.$router.push('/')
       })
-      console.log(response.data)
     }
   }
 }

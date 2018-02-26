@@ -1,7 +1,8 @@
 <template>
   <div>
-    <h1>isLoggedIn: {{isLoggedIn}}</h1>
     <font-awesome-icon :icon="['fas', 'sign-out-alt']" />
+    <router-link to="/login" v-if="!isLoggedIn">Login</router-link>
+    <a href = "#" v-if="isLoggedIn" @click="logout">Logout</a>
   </div>
 </template>
 
