@@ -36,18 +36,16 @@ export default {
   actions: {
     login ({commit}, creds) {
       commit(LOGIN)
-      return new Promise(resolve => {
-        setTimeout(() => {
-          localStorage.setItem('token', 'JWT')
-          commit(LOGIN_SUCCESS)
-          resolve()
-        }, 1000)
+      return authService.login(creds).then(res => {
+        console.log(res)
+        localStorage.setItem('token', res.data.token)
+        commit(LOGIN_SUCCESS)
       })
     },
     signup ({commit}, creds) {
       console.log(creds)
       commit(SIGNUP)
-      authService.signup(creds).then(res => {
+      return authService.signup(creds).then(res => {
         console.log(res)
         localStorage.setItem('token', res.data.token)
         commit(SIGNUP_SUCCESS)

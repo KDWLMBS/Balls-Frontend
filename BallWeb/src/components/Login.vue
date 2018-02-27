@@ -29,11 +29,12 @@ export default {
   },
   methods: {
     login () {
-      this.$store.login('login', {
+      this.$store.dispatch('login', {
         email: this.email,
         password: this.password
-      }).then(() => {
-        this.$router.push('/')
+      }).then((res) => {
+        console.log(res)
+        this.$router.go('/')
       })
     }
   }

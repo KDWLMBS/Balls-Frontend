@@ -3,10 +3,10 @@ import axios from 'axios'
 const url = 'http://localhost:9090/api/auth'
 
 export default {
-  login: () => {
-    console.log('login')
+  login: (args) => {
+    return axios.post(`${url}/login`, args)
   },
   signup: (args) => {
-    return axios.post('http://localhost:9090/api/auth/signup', args)
+    return axios.post(`${url}/signup`, args)
   }
 }
