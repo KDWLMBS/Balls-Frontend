@@ -1,25 +1,24 @@
 <template>
   <ul>
-    <li v-for="p in patterns" :key="p">{{p.name}}</li>
+    <!-- <li v-for="p in patterns" :key="p">{{p}}</li> -->
   </ul>
 </template>
 
 <script>
+import patternService from '@/api/pattern'
+
 export default {
   data () {
     return {
-      patterns: [
-        { name: "adolf" },
-        { name: "adolf" },
-        { name: "wolfgang" },
-      ],
-      formulas: []
     }
   },
   computed: {
-    patterns () {
-      return api.getPatterns();
+    async patterns () {
+      return await this.patternService.readAll()
     }
+  },
+  activated () {
+    this.$store.dispatch('loadPatterns')
   }
 }
 </script>

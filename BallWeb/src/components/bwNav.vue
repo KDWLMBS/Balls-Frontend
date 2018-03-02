@@ -6,9 +6,9 @@
     <router-link to="/register" v-if="!isLoggedIn">
       <span>Register</span>
     </router-link>
-    <router-link to="/" v-if="isLoggedIn" @click="logout">
-      <span><font-awesome-icon :icon="['fas', 'sign-out-alt']" /></span>
-    </router-link>
+    <div v-if="isLoggedIn" @click="logout">
+      <font-awesome-icon :icon="['fas', 'sign-out-alt']" />
+    </div>
   </div>
 </template>
 
@@ -31,14 +31,17 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 div.bw-nav {
-  padding: 1em 0;
   background: rgba(255,255,255,0.5);
   box-shadow: 0 0 1em black;
+
+  display: flex;
+  flex-direction: row;
+
   > * {
     text-decoration: none;
     color: rgba(0,0,0,0.8);
     padding: 1em;
-    
+
     &:hover {
       background: rgba(0,0,0,0.1);
     }

@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import bwDashboard from '@/components/bwDashboard'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
+import bwPattern from '@/components/BwPattern'
+import bwPatternId from '@/components/BwPatternId'
 
 Vue.use(Router)
 
@@ -12,6 +14,18 @@ const routes = [
     name: 'bwDashboard',
     component: bwDashboard,
     meta: {requiresAuth: false}
+  },
+  {
+    path: '/pattern',
+    name: 'bwPattern',
+    component: bwPattern,
+    meta: {requiresAuth: true}
+  },
+  {
+    path: '/pattern/:id',
+    name: 'bwPatternId',
+    component: bwPatternId,
+    meta: {requiresAuth: true}
   },
   {
     path: '/register',
