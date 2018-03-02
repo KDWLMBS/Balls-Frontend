@@ -37,6 +37,8 @@ div.bw-nav {
   display: flex;
   flex-direction: row;
 
+  z-index: 5;
+
   > * {
     text-decoration: none;
     color: rgba(0,0,0,0.8);
