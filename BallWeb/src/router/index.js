@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Register from '@/components/Register'
-import Login from '@/components/Login'
+import bwRegister from '@/components/bwRegister'
+import bwLogin from '@/components/bwLogin'
 import bwDashboard from '@/components/bwDashboard'
 import bwPattern from '@/components/BwPattern'
 import bwPatternId from '@/components/BwPatternId'
@@ -29,14 +29,14 @@ const routes = [
   },
   {
     path: '/register',
-    name: 'Register',
-    component: Register,
+    name: 'bwRegister',
+    component: bwRegister,
     meta: {requiresAuth: false}
   },
   {
     path: '/login',
-    name: 'Login',
-    component: Login,
+    name: 'bwLogin',
+    component: bwLogin,
     meta: {requiresAuth: false}
   }
 ]
