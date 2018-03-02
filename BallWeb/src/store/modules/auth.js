@@ -54,6 +54,7 @@ export default {
     logout ({commit}) {
       localStorage.removeItem('token')
       commit(LOGOUT)
+      return true
     }
   }
 }

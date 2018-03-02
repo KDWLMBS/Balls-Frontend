@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import bwDashboard from '@/components/bwDashboard'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
+import bwDashboard from '@/components/bwDashboard'
 import bwPattern from '@/components/BwPattern'
 import bwPatternId from '@/components/BwPatternId'
 
