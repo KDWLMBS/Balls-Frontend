@@ -1,5 +1,5 @@
 <template>
-  <form @submit = "login">
+  <form @submit="login">
    <div>
      <h1>Login</h1>
      <br>
@@ -30,14 +30,15 @@ export default {
     }
   },
   methods: {
-    login () {
+    login (e) {
       this.$store.dispatch('login', {
         email: this.email,
         password: this.password
       }).then(res => {
         console.log(res)
-        this.$router.go('/')
+        this.$router.push('/')
       })
+      e.preventDefault()
     }
   }
 }
