@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <bw-nav></bw-nav>
-    <img src="./assets/logo.png">
     <router-view/>
   </div>
 </template>
@@ -17,13 +16,23 @@ export default {
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss">
+html, body {
+  display: block;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom right, #3f95ea 0%, #52d3aa 100%);
+
+  * {
+    box-sizing: border-box;
+  }
+
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: rgba(0,0,0,0.8);
+  }
 }
 </style>

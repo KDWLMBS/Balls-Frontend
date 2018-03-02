@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import bwDashboard from '@/components/bwDashboard'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
 
@@ -9,8 +9,8 @@ Vue.use(Router)
 const routes = [
   {
     path: '/',
-    name: 'HelloWorld',
-    component: HelloWorld,
+    name: 'bwDashboard',
+    component: bwDashboard,
     meta: {requiresAuth: false}
   },
   {

@@ -1,9 +1,14 @@
 <template>
-  <div>
-    <font-awesome-icon :icon="['fas', 'sign-out-alt']" v-if="isLoggedIn" @click="logout" />
-    <router-link to="/login" v-if="!isLoggedIn">Login</router-link>
-    <router-link to="/register" v-if="!isLoggedIn">Register</router-link>
-    <a href = "#" v-if="isLoggedIn" @click="logout">Logout</a>
+  <div class="bw-nav">
+    <router-link to="/login" v-if="!isLoggedIn">
+      <span>Login</span>
+    </router-link>
+    <router-link to="/register" v-if="!isLoggedIn">
+      <span>Register</span>
+    </router-link>
+    <router-link to="/" v-if="isLoggedIn" @click="logout">
+      <span><font-awesome-icon :icon="['fas', 'sign-out-alt']" /></span>
+    </router-link>
   </div>
 </template>
 
@@ -24,5 +29,19 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
+div.bw-nav {
+  padding: 1em 0;
+  background: rgba(255,255,255,0.5);
+  box-shadow: 0 0 1em black;
+  > * {
+    text-decoration: none;
+    color: rgba(0,0,0,0.8);
+    padding: 1em;
+    
+    &:hover {
+      background: rgba(0,0,0,0.1);
+    }
+  }
+}
 </style>
