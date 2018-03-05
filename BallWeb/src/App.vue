@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <bw-nav></bw-nav>
+    <!-- <bw-nav></bw-nav> -->
     <router-view/>
   </div>
 </template>
@@ -17,7 +17,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~vuetify/src/stylus/main';
+@import 'vuetify/dist/vuetify.min.css';
 
 html, body {
   display: block;
@@ -25,6 +25,7 @@ html, body {
   margin: 0;
   padding: 0;
   background: linear-gradient(to bottom right, #3f95ea 0%, #52d3aa 100%);
+  overflow: auto;
 
   * {
     box-sizing: border-box;
