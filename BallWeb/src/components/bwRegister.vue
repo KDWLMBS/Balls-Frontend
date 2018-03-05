@@ -1,4 +1,5 @@
 <template>
+  <form @submit = "signup">
    <div>
      <h1>Register</h1>
      <input
@@ -19,8 +20,9 @@
       v-model="password"
       placeholder="Password"/>
      <br>
-     <button @click="signup">Register</button>
+     <button type="signup" @click="signup">Register</button>
    </div>
+  </form>
 </template>
 
 <script>

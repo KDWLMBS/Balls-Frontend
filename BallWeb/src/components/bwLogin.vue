@@ -1,21 +1,23 @@
 <template>
+  <form @submit="login">
    <div>
      <h1>Login</h1>
      <br>
-     <input
+     <input 
       type="email"
       name="email"
       v-model="email"
       placeholder="Email"/>
      <br>
-     <input
+     <input 
       type="password"
       name="password"
       v-model="password"
       placeholder="Password"/>
      <br>
-     <button @click="login">Login</button>
+     <button type="submit" @click="login" >Login</button>
    </div>
+  </form>
 </template>
 
 <script>
@@ -28,14 +30,15 @@ export default {
     }
   },
   methods: {
-    login () {
+    login (e) {
       this.$store.dispatch('login', {
         email: this.email,
         password: this.password
-      }).then((res) => {
+      }).then(res => {
         console.log(res)
-        this.$router.go('/')
+        this.$router.push('/')
       })
+      e.preventDefault()
     }
   }
 }

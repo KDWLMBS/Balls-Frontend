@@ -6,9 +6,9 @@
     <router-link to="/register" v-if="!isLoggedIn">
       <span>Register</span>
     </router-link>
-    <div v-if="isLoggedIn" @click="logout">
-      <font-awesome-icon :icon="['fas', 'sign-out-alt']" />
-    </div>
+    <router-link to="/" v-if="isLoggedIn" >
+      <span @click="logout"><font-awesome-icon :icon="['fas', 'sign-out-alt']" /></span>
+    </router-link>
   </div>
 </template>
 
@@ -42,8 +42,7 @@ div.bw-nav {
   > * {
     text-decoration: none;
     color: rgba(0,0,0,0.8);
-    padding: 1em;
-
+    padding: 1em;    
     &:hover {
       background: rgba(0,0,0,0.1);
     }
