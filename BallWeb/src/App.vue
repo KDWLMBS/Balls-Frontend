@@ -17,6 +17,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~vuetify/src/stylus/main';
+
 html, body {
   display: block;
   height: 100%;
