@@ -1,5 +1,7 @@
 <template>
-  <h1>{{id}}</h1>
+  <div class="bwPatternId">
+    <!-- Pagination which toggles between frames and calls bwFrame on one of them -->
+  </div>
 </template>
 
 <script>

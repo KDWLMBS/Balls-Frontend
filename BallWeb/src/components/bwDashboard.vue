@@ -8,15 +8,15 @@
         <v-list>
           <template v-for="(item, index) in menu.list">
             <v-list-tile avatar ripple :key="index">
-                  <v-list-tile-content>
-                    <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                    <v-list-tile-sub-title class="text--primary">{{ item.author }}</v-list-tile-sub-title>
-                  </v-list-tile-content>
-                  <v-list-tile-action>
-                    <v-icon dark color="primary" slot="activator">delete</v-icon>
-                  </v-list-tile-action>
-                </v-list-tile>
-                <v-divider v-if="index + 1 < menu.list.length" :key="`divider-${index}`" color="grey"></v-divider>
+              <v-list-tile-content>
+                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                <v-list-tile-sub-title class="text--primary">{{ item.author }}</v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-icon dark color="primary" slot="activator">delete</v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
+            <v-divider v-if="index + 1 < menu.list.length" :key="`divider-${index}`" color="grey"></v-divider>
           </template>
         </v-list>
       </v-tab-item>

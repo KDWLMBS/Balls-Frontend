@@ -25,8 +25,7 @@ html, body {
   margin: 0;
   padding: 0;
   background: linear-gradient(to bottom right, #3f95ea 0%, #52d3aa 100%);
-  overflow: auto;
-
+  
   * {
     box-sizing: border-box;
   }
