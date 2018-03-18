@@ -5,6 +5,8 @@ import bwLogin from '@/components/bwLogin'
 import bwDashboard from '@/components/bwDashboard'
 import bwPattern from '@/components/BwPattern'
 import bwPatternId from '@/components/BwPatternId'
+import store from '@/store/index'
+
 
 Vue.use(Router)
 
@@ -13,7 +15,7 @@ const routes = [
     path: '/',
     name: 'bwDashboard',
     component: bwDashboard,
-    meta: {requiresAuth: false}
+    meta: {requiresAuth: true}
   },
   {
     path: '/pattern',
@@ -46,11 +48,10 @@ const router = new Router({routes})
 router.beforeEach((to, from, next) => {
   console.log(to, from, next)
   if (to.meta.requiresAuth) { // check meta
-    const dummy = true
-    if (dummy) { // store.state.Authenticated // check if is authenticated
+    if (store.getters.isLoggedIn) { // store.state.Authenticated // check if is authenticated
       next() // allow next method
     } else {
-      next('/') // redirect
+      next('/login') // redirect
     }
   } else {
     next() // allow next if not auth not required

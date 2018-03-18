@@ -27,6 +27,22 @@ html, body {
   background: linear-gradient(to bottom right, #3f95ea 0%, #52d3aa 100%);
   overflow: auto;
 
+  ::-webkit-scrollbar {
+    width: 1vw;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.8); 
+    border-radius: 0.1em;
+  }
+
+
   * {
     box-sizing: border-box;
   }
