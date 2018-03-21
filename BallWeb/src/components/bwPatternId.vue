@@ -2,6 +2,7 @@
   <div class="bwPatternId">
     <h1>{{id}}</h1>
     <div v-if="pattern">
+      <h2>{{pattern.name}}</h2>
       <v-pagination color="primary" :length="12" v-model="frame"></v-pagination>
     </div>
   </div>
