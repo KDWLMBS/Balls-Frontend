@@ -1,4 +1,4 @@
-import service from '@/services/service'
+import service from '../services/service'
 
 export default {
   register (credentials) {

@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import bwRegister from '@/components/bwRegister'
-import bwLogin from '@/components/bwLogin'
-import bwDashboard from '@/components/bwDashboard'
-import bwPattern from '@/components/BwPattern'
-import bwPatternId from '@/components/BwPatternId'
-import store from '@/store/index'
+import bwRegister from '../components/bwRegister'
+import bwLogin from '../components/bwLogin'
+import bwDashboard from '../components/bwDashboard'
+import bwPattern from '../components/bwPattern'
+import bwPatternId from '../components/bwPatternId'
+import store from '../store/index'
 
 
 Vue.use(Router)
