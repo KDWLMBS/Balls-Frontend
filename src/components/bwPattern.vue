@@ -74,7 +74,7 @@ export default {
           frames: [],
           shift: 0,
           shiftDirection: 'left',
-          shiftDirection: 100
+          shiftDuration: 100
         })
       }
     },
@@ -88,7 +88,7 @@ export default {
 <style lang="scss" scoped>
 div.bwPattern {
   background: rgba(255,255,255,0.75);
-  margin: 5em auto; 
+  margin: 5em auto;
   width: 90vw;
   border-radius: 0.2em;
 
@@ -101,5 +101,3 @@ div.bwPattern {
   }
 }
 </style>
-
-

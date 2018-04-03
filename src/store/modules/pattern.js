@@ -18,7 +18,7 @@ export default {
   actions: {
     loadPatterns ({commit}) {
       console.log('lalala')
-      commit('loadPatterns')  
-    },
+      commit('loadPatterns')
+    }
   }
 }

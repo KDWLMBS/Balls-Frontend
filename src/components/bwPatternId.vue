@@ -5,11 +5,13 @@
       <h2>{{pattern.name}}</h2>
       <v-pagination color="primary" :length="12" v-model="frame"></v-pagination>
     </div>
+    <bw-simulation></bw-simulation>
   </div>
 </template>
 
 <script>
-import patternService from '@/api/pattern'
+import bwSimulation from './bwSimulation'
+import patternService from '../api/pattern'
 
 export default {
   data () {
@@ -29,13 +31,14 @@ export default {
       console.log(res)
     })
   },
+  components: { bwSimulation }
 }
 </script>
 
 <style lang="scss" scoped>
 div.bwPatternId {
   background: rgba(255,255,255,0.75);
-  margin: 5em auto; 
+  margin: 5em auto;
   width: 90vw;
   border-radius: 0.2em;
 

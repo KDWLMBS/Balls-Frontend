@@ -42,7 +42,7 @@ div.bw-nav {
   > * {
     text-decoration: none;
     color: rgba(0,0,0,0.8);
-    padding: 1em;    
+    padding: 1em;
     &:hover {
       background: rgba(0,0,0,0.1);
     }

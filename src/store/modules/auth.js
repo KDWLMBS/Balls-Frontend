@@ -50,13 +50,11 @@ export default {
       state.pending = false
     },
     [SIGNUP] (state) {
-  
     },
     [SIGNUP_SUCCESS] (state) {
-  
     },
     [LOGOUT] (state) {
       state.isLoggedIn = false
     }
-  },
+  }
 }

@@ -40,11 +40,10 @@ html, body {
 
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    // background: rgba(255,255,255,0.8); 
+    // background: rgba(255,255,255,0.8);
     background: rgba(0,0,0,0.5);
     border-radius: 0.1em;
   }
-
 
   * {
     box-sizing: border-box;

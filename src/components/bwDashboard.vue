@@ -32,7 +32,7 @@ export default {
   data () {
     return {
       currentMenu: {},
-      menus: [],
+      menus: []
     }
   },
   created () {
@@ -40,13 +40,13 @@ export default {
       // this.menus.pattern.list = res
       this.menus.push({ title: 'Pattern', list: res })
     }).then(() => {
-      this.currentMenu = this.menus[0];
-      this.menus.push({ title: 'Formula', list: [{ "name": "bjürn" }] })
+      this.currentMenu = this.menus[0]
+      this.menus.push({ title: 'Formula', list: [{ 'name': 'bjürn' }] })
     })
   },
   methods: {
     add (title) {
-      this.$router.push({ path: `/${title}`})
+      this.$router.push({ path: `/${title}` })
     },
     edit (id) {
       this.$router.push({ path: `/pattern/${id}` })
@@ -54,11 +54,11 @@ export default {
     deletePat (id) {
       patternService.delete({_id: id})
         .then(res => {
-          const idx = this.menus.pattern.list.findIndex(e => e._id == id)
+          const idx = this.menus.pattern.list.findIndex(e => e._id === id)
           this.menus.pattern.list.splice(idx, 1)
         })
     }
-  },
+  }
 }
 </script>
 
@@ -116,7 +116,7 @@ div.bwDashboard {
           color: rgba(0,0,0,0.65);
 
           &:hover {
-            color: rgba(0,0,0,0.9); 
+            color: rgba(0,0,0,0.9);
           }
         }
         > div.actions {

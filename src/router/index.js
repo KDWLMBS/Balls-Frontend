@@ -7,7 +7,6 @@ import bwPattern from '../components/bwPattern'
 import bwPatternId from '../components/bwPatternId'
 import store from '../store/index'
 
-
 Vue.use(Router)
 
 const routes = [
