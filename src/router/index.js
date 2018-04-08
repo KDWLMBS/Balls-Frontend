@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import bwRegister from '../components/bwRegister'
-import bwLogin from '../components/bwLogin'
+import bwAuth from '../components/bwAuth'
+import bwLogout from '../components/bwLogout'
 import bwDashboard from '../components/bwDashboard'
 import bwPattern from '../components/bwPattern'
 import bwPatternId from '../components/bwPatternId'
@@ -29,28 +29,33 @@ const routes = [
     meta: {requiresAuth: true}
   },
   {
-    path: '/register',
-    name: 'bwRegister',
-    component: bwRegister,
+    path: '/auth',
+    name: 'bwAuth',
+    component: bwAuth,
     meta: {requiresAuth: false}
   },
   {
-    path: '/login',
-    name: 'bwLogin',
-    component: bwLogin,
+    path: '/logout',
+    name: 'bwLogout',
+    component: bwLogout,
     meta: {requiresAuth: false}
   }
 ]
 
 const router = new Router({routes})
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   console.log(to, from, next)
+
+  if (!store.getters.isLoggedIn) {
+    await store.dispatch('me')
+  }
+
   if (to.meta.requiresAuth) { // check meta
-    if (store.getters.isLoggedIn) { // store.state.Authenticated // check if is authenticated
-      next() // allow next method
+    if (store.getters.isLoggedIn) {
+      next()
     } else {
-      next('/login') // redirect
+      next('/auth')
     }
   } else {
     next() // allow next if not auth not required

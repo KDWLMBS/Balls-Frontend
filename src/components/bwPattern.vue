@@ -1,41 +1,9 @@
 <template>
   <div class="bwPattern">
-    <v-form v-model="valid" ref="form" lazy-validation>
-      <v-text-field
-        label="Name"
-        v-model="name"
-        :rules="nameRules"
-        :counter="10"
-        required
-      ></v-text-field>
-      <v-text-field
-        label="E-mail"
-        v-model="email"
-        :rules="emailRules"
-        required
-      ></v-text-field>
-      <v-select
-        label="Item"
-        v-model="select"
-        :items="items"
-        :rules="[v => !!v || 'Item is required']"
-        required
-      ></v-select>
-      <v-checkbox
-        label="Do you agree?"
-        v-model="checkbox"
-        :rules="[v => !!v || 'You must agree to continue!']"
-        required
-      ></v-checkbox>
-
-      <v-btn
-        @click="submit"
-        :disabled="!valid"
-      >
-        submit
-      </v-btn>
-      <v-btn @click="clear">clear</v-btn>
-    </v-form>
+    <form @submit="submit">
+      <input v-for="(field, index) in fields" :key="index" :type="field.type" :placeholder="field.name" v-model="field.value" />
+      <input type="submit" />
+    </form>
   </div>
 </template>
 
@@ -43,43 +11,38 @@
 import patternService from '@/api/pattern'
 
 export default {
-  data: () => ({
-    valid: true,
-    name: '',
-    nameRules: [
-      v => !!v || 'Name is required',
-      v => (v && v.length <= 10) || 'Name must be less than 10 characters'
-    ],
-    email: '',
-    emailRules: [
-      v => !!v || 'E-mail is required',
-      v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-    ],
-    select: null,
-    items: [
-      'Item 1',
-      'Item 2',
-      'Item 3',
-      'Item 4'
-    ],
-    checkbox: false
-  }),
+  data () {
+    return {
+      fields: [
+        { name: 'name', type: 'text' },
+        // { name: 'type', type: 'select', options: [ 'single', 'double' ], value: null },
+        // { name: 'shift', type: 'radio', value: null },
+        // { name: 'shiftDirection', type: 'select', options: [ 'left', 'right' ], value: null },
+        // { name: 'shiftDuration', type: 'number', value: null },
+      ],
+      valid: () => {
+        return true
+      }
+    }
+  },
 
   methods: {
-    submit () {
-      if (this.$refs.form.validate()) {
-        patternService.create({
-          name: 'test',
-          type: 'single',
-          frames: [],
-          shift: 0,
-          shiftDirection: 'left',
-          shiftDuration: 100
-        })
+    submit (e) {
+      if (this.valid()) {
+        const data = {}
+        for (let f of this.fields) {
+          data[f.name] = f.value
+        }
+        data.frames = [{ duration: 1, positions: [] }]
+        for (let i = 0; i < 30; i++) {
+          data.frames[0].positions.push(Math.random(1) * 100)
+        }
+        patternService.create(data)
+          .then((res) => {
+            this.$router.push({ path: `/pattern/${res.data._id}` })
+          })
       }
-    },
-    clear () {
-      this.$refs.form.reset()
+      e.preventDefault()
     }
   }
 }
@@ -87,8 +50,12 @@ export default {
 
 <style lang="scss" scoped>
 div.bwPattern {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   background: rgba(255,255,255,0.75);
-  margin: 5em auto;
+  margin: 10vh auto;
+  max-height: 80vh;
   width: 90vw;
   border-radius: 0.2em;
 
@@ -96,8 +63,24 @@ div.bwPattern {
     width: 50vw;
   }
 
-  > * {
-    padding: 1em;
+  > form {
+    display: flex;
+    flex-direction: column;
+    > input {
+      flex: 1;
+      padding: 1em 0.5em;
+      border: 0;
+
+      &:last-child {
+        background: rgba(0,0,0,0.5);
+        color: rgba(255,255,255,0.75);
+        &:hover {
+          background: rgba(0,0,0,0.75);
+          color: rgba(255,255,255,0.75);
+        }
+      }
+    }
   }
 }
 </style>
+

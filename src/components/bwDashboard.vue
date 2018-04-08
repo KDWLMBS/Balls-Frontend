@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import patternService from '@/api/pattern'
+import patternService from '../api/pattern'
 
 export default {
   name: 'bwDashboard',
@@ -37,7 +37,6 @@ export default {
   },
   created () {
     patternService.readAll().then(res => {
-      // this.menus.pattern.list = res
       this.menus.push({ title: 'Pattern', list: res })
     }).then(() => {
       this.currentMenu = this.menus[0]
@@ -54,8 +53,8 @@ export default {
     deletePat (id) {
       patternService.delete({_id: id})
         .then(res => {
-          const idx = this.menus.pattern.list.findIndex(e => e._id === id)
-          this.menus.pattern.list.splice(idx, 1)
+          const idx = this.currentMenu.list.findIndex(e => e._id === id)
+          this.currentMenu.list.splice(idx, 1)
         })
     }
   }
@@ -86,7 +85,7 @@ div.bwDashboard {
       text-align: center;
       transition: 100ms;
       padding: 0.5em 0;
-      font-size: 1.5em;
+      font-size: 1em;
       &.active {
         background: rgba(0,0,0,0.5);
         color: rgba(255,255,255,0.75);
@@ -112,7 +111,7 @@ div.bwDashboard {
         > span {
           flex: 1;
           margin: auto 0;
-          font-size: 1.1em;
+          font-size: 0.8em;
           color: rgba(0,0,0,0.65);
 
           &:hover {
@@ -134,18 +133,19 @@ div.bwDashboard {
       }
       > section.divider {
         display: block;
-        width: 100%;
-        border-bottom: 0.1em solid rgba(0,0,0,0.65);
+        width: 98%;
+        margin: 0 auto;
+        border-bottom: 0.1em solid rgba(0,0,0,0.5);
       }
     }
   }
   > div.add {
     background: rgba(255,255,255,0.75);
-    padding: 1em;
+    padding: 0.5em;
     transition: 100ms;
     text-align: center;
     > span {
-      font-size: 1.2em;
+      font-size: 1em;
       font-weight: bold;
     }
 

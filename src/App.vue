@@ -17,8 +17,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'vuetify/dist/vuetify.min.css';
-
 html, body {
   display: block;
   height: 100%;

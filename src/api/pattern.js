@@ -4,7 +4,7 @@ const url = 'http://localhost:9090/api/pattern'
 
 const axiosConfig = {
   headers: {
-    'authorization': localStorage.getItem('token')
+    'authorization': localStorage.getItem('token') // store.token .. else if token is deleted while running there might be some issues
   }
 }
 
@@ -12,6 +12,7 @@ export default {
   readAll: () => {
     return axios.get(`${url}/all`, axiosConfig)
       .then(res => {
+        console.log('res', res)
         if (res.data && res.data.message) {
           console.log(res.data.message)
           return Promise.reject(res.data.message)
@@ -29,7 +30,7 @@ export default {
       })
   },
   create: (args) => {
-    return axios.put(`${url}/${args._id}`, args, axiosConfig)
+    return axios.put(`${url}`, args, axiosConfig)
   },
   update: (args) => {
     return axios.post(`${url}/${args._id}`, args, axiosConfig)

@@ -1,60 +1,74 @@
 import authService from '../../api/auth'
 
 const LOGIN = 'LOGIN'
-const LOGIN_SUCCESS = 'LOGINSUCCESS'
-const SIGNUP = 'LOGIN'
-const SIGNUP_SUCCESS = 'LOGINSUCCESS'
 const LOGOUT = 'LOGOUT'
+const TOKEN = 'TOKEN'
+const USER = 'USER'
 
 export default {
   state: {
-    isLoggedIn: !!localStorage.getItem('token')
+    user: {},
+    token: null
   },
   getters: {
-    isLoggedIn: state => state.isLoggedIn
+    isLoggedIn (state) {
+      return (state.user && state.token)
+    }
   },
   actions: {
+    me ({commit}) {
+      if (!localStorage.getItem('token')) return
+
+      return authService.me().then(res => {
+        console.log('me response: ', res)
+        commit(USER, res)
+        commit(TOKEN, localStorage.getItem('token'))
+        return Promise.resolve()
+      }).catch(err => {
+        console.log(err)
+        debugger
+        return Promise.reject()
+      })
+    },
     login ({commit}, creds) {
       console.log(creds)
-      commit(LOGIN)
       return authService.login(creds).then(res => {
         console.log('login response: ', res)
-        localStorage.setItem('token', res.token)
-        commit(LOGIN_SUCCESS)
-        return Promise.resolve(true)
+        commit(USER, res.user)
+        commit(TOKEN, res.token)
+        return Promise.resolve()
       }).catch(err => {
         console.log(err.message)
+        return Promise.reject(err.message)
       })
     },
     signup ({commit}, creds) {
       console.log(creds)
-      commit(SIGNUP)
       return authService.signup(creds).then(res => {
         console.log(res)
-        localStorage.setItem('token', res.data.token)
-        commit(SIGNUP_SUCCESS)
+        commit(USER, res.user)
+        commit(TOKEN, res.token)
       })
     },
     logout ({commit}) {
-      localStorage.removeItem('token')
       commit(LOGOUT)
-      return true
     }
   },
   mutations: {
     [LOGIN] (state) {
-      state.pending = true
-    },
-    [LOGIN_SUCCESS] (state) {
       state.isLoggedIn = true
-      state.pending = false
     },
-    [SIGNUP] (state) {
+    [TOKEN] (state, token) {
+      state.token = token
+      localStorage.setItem('token', token)
     },
-    [SIGNUP_SUCCESS] (state) {
+    [USER] (state, user) {
+      state.user = user
     },
     [LOGOUT] (state) {
-      state.isLoggedIn = false
+      state.user = {}
+      state.token = null
+      localStorage.removeItem('token')
     }
   }
 }
