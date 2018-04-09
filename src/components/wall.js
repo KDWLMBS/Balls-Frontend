@@ -32,8 +32,7 @@ export default class Wall {
       let x = padding + (step * i);
       p.line(x, 0, x, c.height);
       p.fill(0,0,0);
-      // p.ellipse(x, c.height * (this.sliders[i] / 100), width / this.sliders.length, width / this.sliders.length);
-      p.ellipse(x, 100 - this.sliders[i], width / this.sliders.length, width / this.sliders.length)
+      p.ellipse(x, 150 - this.c.height * (this.sliders[i] / 200), width / this.sliders.length, width / this.sliders.length)
     }
   }
 

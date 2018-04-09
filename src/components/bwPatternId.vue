@@ -52,25 +52,46 @@ export default {
   },
   methods: {
     increment () {
-      this.current += this.current + 1 < this.pattern.frames.length ? 1 : 0
+      if (this.current + 1 < this.pattern.frames.length) this.current++
     },
     decrement () {
-      this.current -= this.current - 1 > 0 ? 1 : 0
+      if (this.current - 1 >= 0) this.current--
     },
     detect () {
       this.pages.splice(0, this.pages.length)
-      this.pages = this.patter
-      let framesLength = this.pattern.frames.length
-      for (let i = 0; i < framesLength % 10; i++) {
-        let num = this.current + i
-        if (num >= this.pattern.frames.length) num = this.pattern.frames.length - 1
-        this.pages.push(num)
+      
+      debugger
+
+      // const range = Math.min(this.pattern.frames.length, 10)
+      // const overflow = range - Math.abs(this.current - this.pattern.frames.length)
+      // const start = Math.max(0, this.current - (overflow))
+      // const end = Math.min(this.pattern.frames.length, start + range)
+
+      const fLen = this.pattern.frames.length
+      const range = Math.min(fLen, 10)
+      const overflow = range - Math.abs(this.current - fLen)
+      const remaining = range - Math.abs(this.current - 0)
+      const start = Math.max(0, this.current - remaining - overflow)
+      const end = Math.min(fLen, start + range)
+
+      for (let i = start; i < end; i++) {
+        console.log(i)
+        this.pages.push(i)
       }
+
+      // const diff = Math.abs(this.current - start)
+      // const rem = range - diff
+      // const max = Math.min(this.pattern.frames.length, this.current + rem)
+
+      // for (let i = start; i < max; i++) {
+      //   console.log(i)
+      //   this.pages.push(i)
+      // }
     },
     newFrame (e) {
       let frame = { duration: 1, positions: [] }
       for (let i = 0; i < 30; i++) {
-        frame.positions.push(Math.random(1) * 100)
+        frame.positions.push(100 - Math.random(1) * 200)
       }
       this.pattern.frames.push(frame)
     },
