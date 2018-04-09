@@ -4,16 +4,16 @@
       <h1>{{pattern.name}}</h1>
       <h4>{{pattern._id}}</h4>
       <div class="pages">
-        <span @click="decrement">&lt;</span>
+        <span class="control" @click="decrement">&lt;</span>
         <span v-for="(page, index) in pages" :key="index" v-bind:class="{active: page===current}" @click="current=page">{{ page }}</span>
-        <span @click="increment">&gt;</span>
+        <span class="control" @click="increment">&gt;</span>
+        <span class="control new" @click="newFrame">+</span>
       </div>
       <div class="frame">
-        <input type="range" orient="vertical" v-for="(pos, index) in pattern.frames[current].positions" :key="index" v-model="pattern.frames[current].positions[index]" />
-
-        <!-- <div class="input" v-for="(pos, index) in pattern.frames[current].positions" :key="index">
-          <input type="range" orient="vertical" v-model="pattern.frames[current].positions[index]" />
-        </div> -->
+        <input type="range" orient="vertical" min="-100" max="100" v-for="(pos, index) in pattern.frames[current].positions" :key="index" v-model="pattern.frames[current].positions[index]" />
+      </div>
+      <div class="simulation">
+        <bw-simulation :pattern="pattern" :current="current" :play="false" />
       </div>
       <button @click="submit">Save</button>
     </div>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import bwSimulation from './bwSimulation'
+import bwSimulation from '@/components/bwSimulation'
 import patternService from '../api/pattern'
 
 export default {
@@ -46,26 +46,33 @@ export default {
   created () {
     patternService.readOne({_id: this.id}).then(res => {
       this.pattern = res
+      this.detect()
       console.log(res)
     })
-    this.detect()
   },
   methods: {
     increment () {
-      this.current += this.current + 1 < 30 ? 1 : 0
-      // this.current += this.current + 1 < this.frames.length ? 1 : 0
+      this.current += this.current + 1 < this.pattern.frames.length ? 1 : 0
     },
     decrement () {
       this.current -= this.current - 1 > 0 ? 1 : 0
     },
     detect () {
       this.pages.splice(0, this.pages.length)
-      let frame = this.current > 5 ? this.current : 5
-      frame = this.current < 25 ? this.current : 25
-      for (let i = 0; i < 10; i++) {
-        const num = frame - 5 + 1
-        this.pages.push(frame - 5 + i)
+      this.pages = this.patter
+      let framesLength = this.pattern.frames.length
+      for (let i = 0; i < framesLength % 10; i++) {
+        let num = this.current + i
+        if (num >= this.pattern.frames.length) num = this.pattern.frames.length - 1
+        this.pages.push(num)
       }
+    },
+    newFrame (e) {
+      let frame = { duration: 1, positions: [] }
+      for (let i = 0; i < 30; i++) {
+        frame.positions.push(Math.random(1) * 100)
+      }
+      this.pattern.frames.push(frame)
     },
     submit (e) {
       patternService.update(this.pattern)
@@ -107,10 +114,15 @@ div.bwPatternId {
         padding: 0.5em;
         cursor: pointer;
 
-        &:first-child, &:last-child {
+        &.control {
           background: rgba(0,0,0,0.5);
           color: rgba(255,255,255,0.75);
         }
+        &.new {
+          background: rgba(50, 200, 50, 0.5);
+          color: rgba(0,0,0,0.5);
+        }
+
         &.active {
           background: rgba(0,0,0,0.5);
           color: rgba(255,255,255,0.75);

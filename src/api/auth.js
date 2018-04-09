@@ -21,6 +21,13 @@ export default {
   },
   signup: (args) => {
     return axios.post(`${url}/signup`, args)
+      .then(res => {
+        if (res.data && (!res.data.token || !res.data.user)) {
+          console.log(res.data.message)
+          return Promise.reject(res.data.message)
+        }
+        return Promise.resolve(res.data)
+      })
   },
   me: (args) => {
     return axios.get(`${url}/me`, axiosConfig)
@@ -30,9 +37,6 @@ export default {
           return Promise.reject(res.data.message)
         }
         return Promise.resolve(res.data.user)
-      })
-      .catch(err => {
-        console.log(err)
       })
   }
 }

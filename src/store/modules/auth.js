@@ -26,8 +26,7 @@ export default {
         return Promise.resolve()
       }).catch(err => {
         console.log(err)
-        debugger
-        return Promise.reject()
+        return Promise.reject(err)
       })
     },
     login ({commit}, creds) {
@@ -38,17 +37,22 @@ export default {
         commit(TOKEN, res.token)
         return Promise.resolve()
       }).catch(err => {
-        console.log(err.message)
-        return Promise.reject(err.message)
+        console.log(err)
+        return Promise.reject(err)
       })
     },
     signup ({commit}, creds) {
       console.log(creds)
-      return authService.signup(creds).then(res => {
-        console.log(res)
-        commit(USER, res.user)
-        commit(TOKEN, res.token)
-      })
+      return authService.signup(creds)
+        .then(res => {
+          console.log(res)
+          commit(USER, res.user)
+          commit(TOKEN, res.token)
+          return Promise.resolve()
+        }).catch(err => {
+          console.log(err)
+          return Promise.reject(err)
+        })
     },
     logout ({commit}) {
       commit(LOGOUT)

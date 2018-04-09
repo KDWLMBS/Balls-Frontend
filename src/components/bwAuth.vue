@@ -5,11 +5,14 @@
         {{ cred.title }}
       </div>
     </div>
-      <form @submit="submit">
-        <input v-for="(field, index) in current.fields" :key="index" :type="field.type" :placeholder="field.name" v-model="field.value" />
-        <input type="submit" />
-      </form>
+    <form @submit="submit">
+      <input v-for="(field, index) in current.fields" :key="index" :type="field.type" :placeholder="field.name" v-model="field.value" />
+      <input type="submit" />
+    </form>
+    <div class="message" v-if="message">
+      {{message}}
     </div>
+  </div>
 </template>
 
 <script>
@@ -47,7 +50,8 @@ export default {
             return true
           }
         },
-      ]
+      ],
+      message: ''
     }
   },
   created () {
@@ -66,8 +70,19 @@ export default {
             console.log(res)
             this.$router.push('/')
           })
+          .catch(err => {
+            console.log(err)
+            this.message = err
+          })
       }
       e.preventDefault()
+    }
+  },
+  watch: {
+    message () {
+      setTimeout(() => {
+        this.message = ''
+      }, 5000)
     }
   }
 }
@@ -80,12 +95,15 @@ div.bwAuth {
   align-items: stretch;
   background: rgba(255,255,255,0.75);
   margin: 10vh auto;
-  max-height: 80vh;
   width: 90vw;
   border-radius: 0.2em;
 
   @media screen and (min-width: 720px) {
     width: 50vw;
+  }
+
+  *:focus {
+    outline: none;
   }
 
   > div.header {
@@ -124,6 +142,16 @@ div.bwAuth {
         }
       }
     }
+  }
+  > div.message {
+    display: flex;
+    justify-content: center;
+    font-size: 0.9em;
+    font-weight: lighter;
+    background: rgba(255, 0, 0, 0.5);
+    color: rgba(0,0,0,0.75);
+    padding: 0.5em;
+    border: 0;
   }
 }
 </style>
