@@ -1,5 +1,5 @@
 <template>
-  <div class="bwPattern">
+  <div class="bwFormula">
     <form @submit="submit">
       <input v-for="(field, index) in fields" :key="index" :type="field.type" :placeholder="field.name" v-model="field.value" />
       <input type="submit" />
@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import patternService from '@/api/pattern'
+import formulaService from '@/api/formula'
 
 export default {
   data () {
@@ -33,23 +33,21 @@ export default {
         for (let f of this.fields) {
           data[f.name] = f.value
         }
-        data.frames = [{ duration: 1, positions: [] }]
-        for (let i = 0; i < 30; i++) {
-          data.frames[0].positions.push(Math.random(1) * 100)
-        }
-        patternService.create(data)
+        formulaService.create(data)
           .then((res) => {
-            this.$router.push({ path: `/pattern/${res.data._id}` })
+            console.log(data)
+            this.$router.push({ path: `/formula/${res.data._id}` })
           })
       }
       e.preventDefault()
     }
   }
+
 }
 </script>
 
 <style lang="scss" scoped>
-div.bwPattern {
+div.bwFormula {
   display: flex;
   flex-direction: column;
   align-items: stretch;

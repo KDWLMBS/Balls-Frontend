@@ -11,7 +11,7 @@
           <span>{{ item.name }}</span>
           <div class="actions">
             <font-awesome-icon :icon="['fas', 'edit']" title="edit" @click="edit(item._id)" />
-            <font-awesome-icon :icon="['fas', 'trash']" title="delete" @click="deletePat(item._id)" />
+            <font-awesome-icon :icon="['fas', 'trash']" title="delete" @click="del(item._id)" />
           </div>
         </div>
         <section class="divider" v-if="index+1 !== currentMenu.list.length" />
@@ -26,21 +26,25 @@
 
 <script>
 import patternService from '../api/pattern'
+import formulaService from '../api/formula'
 
 export default {
   name: 'bwDashboard',
   data () {
     return {
       currentMenu: {},
-      menus: []
+      menus: [
+        { title: 'Pattern', list: [] },
+        { title: 'Formula', list: [] }
+      ]
     }
   },
   created () {
     patternService.readAll().then(res => {
-      this.menus.push({ title: 'Pattern', list: res })
-    }).then(() => {
-      this.currentMenu = this.menus[0]
-      this.menus.push({ title: 'Formula', list: [{ 'name': 'bjürn' }] })
+      this.menus.find(m => m.title === 'Pattern').list = res
+    })
+    formulaService.readAll().then(res => {
+      this.menus.find(m => m.title === 'Formula').list = res
     })
   },
   methods: {
@@ -48,14 +52,25 @@ export default {
       this.$router.push({ path: `/${title}` })
     },
     edit (id) {
-      this.$router.push({ path: `/pattern/${id}` })
+      this.$router.push({ path: `/${title}/${id}` })
     },
-    deletePat (id) {
-      patternService.delete({_id: id})
-        .then(res => {
-          const idx = this.currentMenu.list.findIndex(e => e._id === id)
-          this.currentMenu.list.splice(idx, 1)
-        })
+    del (id) {
+      switch (this.currentMenu.title) {
+        case 'Pattern':
+          patternService.delete({_id: id}).then(res => {
+            const idx = this.currentMenu.list.findIndex(e => e._id === id)
+            this.currentMenu.list.splice(idx, 1)
+          })
+          break
+        case 'Formula':
+          formulaService.delete({_id: id}).then(res => {
+            const idx = this.currentMenu.list.findIndex(e => e._id === id)
+            this.currentMenu.list.splice(idx, 1)
+          })
+          break
+      }
+
+      // could create a class called service and access the current one by doing service[this.currentMenu.title]...
     }
   }
 }

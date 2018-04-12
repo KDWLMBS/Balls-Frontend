@@ -5,6 +5,8 @@ import bwLogout from '../components/bwLogout'
 import bwDashboard from '../components/bwDashboard'
 import bwPattern from '../components/bwPattern'
 import bwPatternId from '../components/bwPatternId'
+import bwFormula from '../components/bwFormula'
+import bwFormulaId from '../components/bwFormulaId'
 import store from '../store/index'
 
 Vue.use(Router)
@@ -26,6 +28,18 @@ const routes = [
     path: '/pattern/:id',
     name: 'bwPatternId',
     component: bwPatternId,
+    meta: {requiresAuth: true}
+  },
+  {
+    path: '/formula',
+    name: 'bwFormula',
+    component: bwFormula,
+    meta: {requiresAuth: true}
+  },
+  {
+    path: '/formula/:id',
+    name: 'bwFormulaId',
+    component: bwFormulaId,
     meta: {requiresAuth: true}
   },
   {
