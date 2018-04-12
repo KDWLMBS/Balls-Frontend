@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import p5 from 'p5'
+import P5 from 'p5'
 import Wall from './wall'
 
 export default {
@@ -18,7 +18,7 @@ export default {
     }
   },
   mounted () {
-    this.p5 = new p5((p) => {
+    this.p5 = new P5(p => {
       p.setup = () => {
         this.canvas = p.createCanvas(this.$refs.bwSimulation.clientWidth, 300)
         this.canvas.parent(this.$refs.canvas)
@@ -33,13 +33,12 @@ export default {
       }
     })
 
-    this.$nextTick(function() {
-      window.addEventListener('resize', this.updateCanvas);
+    this.$nextTick(function () {
+      window.addEventListener('resize', this.updateCanvas)
     })
-
   },
   methods: {
-    updateCanvas(e) {
+    updateCanvas (e) {
       this.p5.resizeCanvas(this.$refs.bwSimulation.clientWidth, 300)
     }
   },
@@ -53,8 +52,8 @@ export default {
       this.wall.play = val
     }
   },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.updateCanvas);
+  beforeDestroy () {
+    window.removeEventListener('resize', this.updateCanvas)
   }
 }
 </script>

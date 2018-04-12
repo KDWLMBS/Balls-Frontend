@@ -1,17 +1,13 @@
 <template>
   <div id="app">
-    <!-- <bw-nav></bw-nav> -->
     <router-view/>
   </div>
 </template>
 
 <script>
-import bwNav from '@/components/bwNav'
-
 export default {
   name: 'App',
   components: {
-    bwNav
   }
 }
 </script>

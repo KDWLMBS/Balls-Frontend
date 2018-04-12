@@ -8,11 +8,17 @@ const USER = 'USER'
 export default {
   state: {
     user: {},
-    token: null
+    token: localStorage.getItem('token')
   },
   getters: {
     isLoggedIn (state) {
       return (state.user && state.token)
+    },
+    user (state) {
+      return state.user
+    },
+    token (state) {
+      return state.token
     }
   },
   actions: {
@@ -26,6 +32,7 @@ export default {
         return Promise.resolve()
       }).catch(err => {
         console.log(err)
+        commit(LOGOUT)
         return Promise.reject(err)
       })
     },

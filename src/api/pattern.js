@@ -1,16 +1,19 @@
 import axios from 'axios'
+import store from '../store/index'
 
-const url = 'http://localhost:9090/api/pattern'
+const url = `${process.env.SERVER_IP}/api/pattern`
 
-const axiosConfig = {
-  headers: {
-    'authorization': localStorage.getItem('token') // store.token .. else if token is deleted while running there might be some issues
+const config = () => {
+  return {
+    headers: {
+      'authorization': store && store.getters && store.getters.token
+    }
   }
 }
 
 export default {
   readAll: () => {
-    return axios.get(`${url}/all`, axiosConfig)
+    return axios.get(`${url}/all`, config())
       .then(res => {
         console.log('res', res)
         if (res.data && res.data.message) {
@@ -24,24 +27,24 @@ export default {
       })
   },
   readOne: (args) => {
-    return axios.get(`${url}/${args._id}`, axiosConfig)
+    return axios.get(`${url}/${args._id}`, config())
       .then(res => {
         return Promise.resolve(res.data)
       })
   },
   create: (args) => {
-    return axios.put(`${url}`, args, axiosConfig)
+    return axios.put(`${url}`, args, config())
   },
   update: (args) => {
-    return axios.post(`${url}/${args._id}`, args, axiosConfig)
+    return axios.post(`${url}/${args._id}`, args, config())
   },
   delete: (args) => {
-    return axios.delete(`${url}/${args._id}`, axiosConfig)
+    return axios.delete(`${url}/${args._id}`, config())
       .then(res => {
         return Promise.resolve(res.data)
       })
   },
   play: (args) => {
-    return axios.post(`${url}/play/${args._id}`, axiosConfig)
+    return axios.post(`${url}/play/${args._id}`, config())
   }
 }

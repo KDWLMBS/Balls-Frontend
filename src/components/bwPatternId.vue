@@ -13,7 +13,7 @@
         <input type="range" orient="vertical" min="-100" max="100" v-for="(pos, index) in pattern.frames[current].positions" :key="index" v-model="pattern.frames[current].positions[index]" />
       </div>
       <div class="simulation">
-        <bw-simulation :pattern="pattern" :current="current" :play="false" />
+        <bw-simulation :pattern="pattern" :current="current" :play="true" />
       </div>
       <button @click="submit">Save</button>
     </div>
@@ -59,8 +59,6 @@ export default {
     },
     detect () {
       this.pages.splice(0, this.pages.length)
-      
-      debugger
 
       // const range = Math.min(this.pattern.frames.length, 10)
       // const overflow = range - Math.abs(this.current - this.pattern.frames.length)

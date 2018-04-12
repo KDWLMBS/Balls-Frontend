@@ -49,7 +49,7 @@ export default {
             }
             return true
           }
-        },
+        }
       ],
       message: ''
     }
@@ -116,8 +116,10 @@ div.bwAuth {
       transition: 100ms;
       padding: 0.5em 0;
       font-size: 1.5em;
+      background: rgba(0,0,0,0.5);
+      color: rgba(255,255,255,0.75);
       &.active {
-        background: rgba(0,0,0,0.5);
+        background: rgba(0,0,0,0.75);
         color: rgba(255,255,255,0.75);
       }
       &:hover {

@@ -1,10 +1,14 @@
 import axios from 'axios'
+import store from '../store/index'
 
-const url = 'http://localhost:9090/api/auth'
+const url = `${process.env.SERVER_IP}/api/auth`
 
-const axiosConfig = {
-  headers: {
-    'authorization': localStorage.getItem('token')
+const config = () => {
+  console.log(store)
+  return {
+    headers: {
+      'authorization': store.getters.token
+    }
   }
 }
 
@@ -30,7 +34,7 @@ export default {
       })
   },
   me: (args) => {
-    return axios.get(`${url}/me`, axiosConfig)
+    return axios.get(`${url}/me`, config())
       .then(res => {
         if (res.data && (!res.data.user)) {
           console.log(res.data.message)
