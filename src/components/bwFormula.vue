@@ -14,18 +14,24 @@ export default {
   data () {
     return {
       fields: [
-        { name: 'name', type: 'text' }
+        { name: 'name', type: 'text' },
+        { name: 'formula', type: 'text' },
+        { name: 'minX', type: 'number' },
+        { name: 'maxX', type: 'number' },
+        { name: 'minY', type: 'number' },
+        { name: 'maxY', type: 'number' }
         // { name: 'type', type: 'select', options: [ 'single', 'double' ], value: null },
         // { name: 'shift', type: 'radio', value: null },
         // { name: 'shiftDirection', type: 'select', options: [ 'left', 'right' ], value: null },
         // { name: 'shiftDuration', type: 'number', value: null },
+
+        // input component which takes type and renders them correctly
       ],
       valid: () => {
         return true
       }
     }
   },
-
   methods: {
     submit (e) {
       if (this.valid()) {
@@ -33,6 +39,7 @@ export default {
         for (let f of this.fields) {
           data[f.name] = f.value
         }
+        data.points = [] // should be done on the server
         formulaService.create(data)
           .then((res) => {
             console.log(data)
@@ -42,7 +49,6 @@ export default {
       e.preventDefault()
     }
   }
-
 }
 </script>
 

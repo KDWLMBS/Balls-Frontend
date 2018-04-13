@@ -10,8 +10,8 @@
         <div class="row">
           <span>{{ item.name }}</span>
           <div class="actions">
-            <font-awesome-icon :icon="['fas', 'edit']" title="edit" @click="edit(item._id)" />
-            <font-awesome-icon :icon="['fas', 'trash']" title="delete" @click="del(item._id)" />
+            <font-awesome-icon :icon="['fas', 'edit']" title="edit" @click="edit(currentMenu.title, item._id)" />
+            <font-awesome-icon :icon="['fas', 'trash']" title="delete" @click="del(currentMenu.title, item._id)" />
           </div>
         </div>
         <section class="divider" v-if="index+1 !== currentMenu.list.length" />
@@ -40,6 +40,7 @@ export default {
     }
   },
   created () {
+    this.currentMenu = this.menus[0]
     patternService.readAll().then(res => {
       this.menus.find(m => m.title === 'Pattern').list = res
     })
@@ -51,11 +52,11 @@ export default {
     add (title) {
       this.$router.push({ path: `/${title}` })
     },
-    edit (id) {
+    edit (title, id) {
       this.$router.push({ path: `/${title}/${id}` })
     },
-    del (id) {
-      switch (this.currentMenu.title) {
+    del (title, id) {
+      switch (title) {
         case 'Pattern':
           patternService.delete({_id: id}).then(res => {
             const idx = this.currentMenu.list.findIndex(e => e._id === id)

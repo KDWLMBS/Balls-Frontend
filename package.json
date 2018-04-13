@@ -16,6 +16,7 @@
     "@fortawesome/vue-fontawesome": "0.0.22",
     "axios": "^0.18.0",
     "install": "^0.10.4",
+    "mathjs": "^4.1.1",
     "p5": "^0.6.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",

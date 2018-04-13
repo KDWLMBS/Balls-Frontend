@@ -5,7 +5,7 @@
       <h4>{{formula._id}}</h4>
       <input type="text" :placeholder="formula.formula" v-model="formula.formula" />
       <div class="simulation">
-        <bw-simulation :formula="formula" :play="true" />
+        <bw-simulation :type="type" :model="formula" :play="false" />
       </div>
       <!-- <button @click="submit">Save</button> -->
     </div>
@@ -15,14 +15,35 @@
 <script>
 import bwSimulation from '@/components/bwSimulation'
 import formulaService from '../api/formula'
+import mathjs from 'mathjs'
 
 export default {
   data () {
     return {
+      type: 'Formula',
       formula: {}
     }
   },
   watch: {
+    'formula.formula': function () {
+      console.log('Formula changed')
+      const absX = Math.abs(this.formula.minX - this.formula.maxX)
+      const absY = Math.abs(this.formula.minY - this.formula.maxY)
+
+      console.log(absX, absY)
+
+      const len = 30
+      for (let i = 0; i < len; i++) {
+        try {
+          const calc = mathjs.eval(this.formula.formula, { x: this.formula.minX + i * (absX / len) })
+          console.log(calc)
+          const num = Math.floor(100 * calc) // initial = ( 1000 * calc )
+          this.formula.points.push(num)
+        } catch (ex) {
+          console.log(ex)
+        }
+      }
+    }
   },
   computed: {
     id () {

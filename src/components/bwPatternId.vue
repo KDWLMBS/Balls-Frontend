@@ -5,7 +5,7 @@
       <h4>{{pattern._id}}</h4>
       <div class="pages">
         <span class="control" @click="decrement">&lt;</span>
-        <span v-for="(page, index) in pages" :key="index" v-bind:class="{active: page===current}" @click="current=page">{{ page }}</span>
+        <span v-for="(page, index) of pages" :key="index" :class="{active: page===current}" @click="current=page">{{ page }}</span>
         <span class="control" @click="increment">&gt;</span>
         <span class="control new" @click="newFrame">+</span>
       </div>
@@ -13,7 +13,7 @@
         <input type="range" orient="vertical" min="-100" max="100" v-for="(pos, index) in pattern.frames[current].positions" :key="index" v-model="pattern.frames[current].positions[index]" />
       </div>
       <div class="simulation">
-        <bw-simulation :pattern="pattern" :current="current" :play="true" />
+        <bw-simulation :type="type" :model="pattern" :current="current" :play="false" />
       </div>
       <button @click="submit">Save</button>
     </div>
@@ -27,15 +27,15 @@ import patternService from '../api/pattern'
 export default {
   data () {
     return {
-      current: 0,
+      type: 'Pattern',
       pattern: {},
+      current: null,
       pages: []
     }
   },
   watch: {
     current: function (val) {
-      console.log(val)
-      this.detect()
+      this.detect(val)
     }
   },
   computed: {
@@ -45,9 +45,9 @@ export default {
   },
   created () {
     patternService.readOne({_id: this.id}).then(res => {
+      console.log(`pattern`, res)
       this.pattern = res
-      this.detect()
-      console.log(res)
+      this.current = 0
     })
   },
   methods: {
@@ -57,7 +57,7 @@ export default {
     decrement () {
       if (this.current - 1 >= 0) this.current--
     },
-    detect () {
+    detect (idx) {
       this.pages.splice(0, this.pages.length)
 
       // const range = Math.min(this.pattern.frames.length, 10)
@@ -67,13 +67,12 @@ export default {
 
       const fLen = this.pattern.frames.length
       const range = Math.min(fLen, 10)
-      const overflow = range - Math.abs(this.current - fLen)
-      const remaining = range - Math.abs(this.current - 0)
-      const start = Math.max(0, this.current - remaining - overflow)
+      const overflow = range - Math.abs(idx - fLen)
+      const remaining = range - Math.abs(idx - 0)
+      const start = Math.max(0, idx - remaining - overflow)
       const end = Math.min(fLen, start + range)
 
       for (let i = start; i < end; i++) {
-        console.log(i)
         this.pages.push(i)
       }
 
@@ -85,6 +84,11 @@ export default {
       //   console.log(i)
       //   this.pages.push(i)
       // }
+
+      // < 0 1 2 [3] 4 5 6 7 8 9 > (10 11 12 13 14)
+      // range = min(length, 10)
+      // offset = abs(0, idx) % (range /  2)
+      //
     },
     newFrame (e) {
       let frame = { duration: 1, positions: [] }
@@ -92,6 +96,7 @@ export default {
         frame.positions.push(100 - Math.random(1) * 200)
       }
       this.pattern.frames.push(frame)
+      this.current = this.pattern.frames.indexOf(frame)
     },
     submit (e) {
       patternService.update(this.pattern)
