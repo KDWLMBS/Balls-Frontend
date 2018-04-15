@@ -3,7 +3,7 @@
     <div class="pattern" v-if="pattern">
       <h1>{{pattern.name}}</h1>
       <h4>{{pattern._id}}</h4>
-      <div class="pages">
+      <div class="pages" v-if="pages">
         <span class="control" @click="decrement">&lt;</span>
         <span v-for="(page, index) of pages" :key="index" :class="{active: page===current}" @click="current=page">{{ page }}</span>
         <span class="control" @click="increment">&gt;</span>
@@ -12,8 +12,9 @@
       <div class="frame">
         <input type="range" orient="vertical" min="-100" max="100" v-for="(pos, index) in pattern.frames[current].positions" :key="index" v-model="pattern.frames[current].positions[index]" />
       </div>
+      <input type="checkbox" v-model="play" />
       <div class="simulation">
-        <bw-simulation :type="type" :model="pattern" :current="current" :play="false" />
+        <bw-simulation :type="type" :model="pattern" :current="displayIndex" :play="play" />
       </div>
       <button @click="submit">Save</button>
     </div>
@@ -30,7 +31,10 @@ export default {
       type: 'Pattern',
       pattern: {},
       current: null,
-      pages: []
+      pages: [],
+      play: false,
+      now: 0,
+      displayIndex: null
     }
   },
   watch: {
@@ -48,6 +52,7 @@ export default {
       console.log(`pattern`, res)
       this.pattern = res
       this.current = 0
+      this.displayIndex = 0
     })
   },
   methods: {
@@ -105,6 +110,16 @@ export default {
         })
       e.preventDefault()
     }
+  },
+  mounted () {
+    this.$nextTick(function () {
+      if (this.pattern && this.play) {
+        const newDate = Date.now()
+        if (this.now + 500 < newDate) {
+          this.displayIndex = this.displayIndex + 1 < this.pattern.frames.length ? this.displayIndex + 1 : 0
+        }
+      }
+    })
   },
   components: { bwSimulation }
 }

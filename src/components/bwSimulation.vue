@@ -9,7 +9,7 @@ import P5 from 'p5'
 import Wall from './wall'
 
 export default {
-  props: [ 'type', 'model', 'current', 'play' ],
+  props: [ 'type', 'model', 'current', 'points', 'play' ],
   data () {
     return {
       p5: null,
@@ -25,11 +25,15 @@ export default {
         this.canvas.parent(this.$refs.canvas)
         p.frameRate(60)
 
-        this.wall = new Wall(p, this.canvas, this.type, this.model)
+        const data = {
+          play: this.play,
+          points: this.points
+        }
+
+        this.wall = new Wall(p, this.canvas, this.type, this.model, data)
       }
       p.draw = () => {
-        p.background(255)
-
+        p.clear()
         this.wall.draw()
       }
     })
@@ -47,6 +51,12 @@ export default {
     current (val) {
       console.log(val)
       if (!this.play) this.wall.current = val
+    },
+    play (val) {
+      this.wall.data.play = val
+    },
+    points (val) {
+      this.wall.refresh()
     }
   },
   beforeDestroy () {

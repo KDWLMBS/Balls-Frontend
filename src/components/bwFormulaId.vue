@@ -4,10 +4,12 @@
       <h1>{{formula.name}}</h1>
       <h4>{{formula._id}}</h4>
       <input type="text" :placeholder="formula.formula" v-model="formula.formula" />
+      <input type="checkbox" v-model="play" />
       <div class="simulation">
-        <bw-simulation :type="type" :model="formula" :play="false" />
+        <bw-simulation :type="type" :model="formula" :points="points" :play="play" />
       </div>
-      <!-- <button @click="submit">Save</button> -->
+
+      <button @click="submit">Save</button>
     </div>
   </div>
 </template>
@@ -21,27 +23,26 @@ export default {
   data () {
     return {
       type: 'Formula',
-      formula: {}
+      formula: {},
+      points: [],
+      play: true
     }
   },
   watch: {
     'formula.formula': function () {
-      console.log('Formula changed')
       const absX = Math.abs(this.formula.minX - this.formula.maxX)
-      const absY = Math.abs(this.formula.minY - this.formula.maxY)
-
-      console.log(absX, absY)
 
       const len = 30
-      for (let i = 0; i < len; i++) {
-        try {
+      try {
+        this.points.splice(0, this.points.length)
+        for (let i = 0; i < len; i++) {
           const calc = mathjs.eval(this.formula.formula, { x: this.formula.minX + i * (absX / len) })
-          console.log(calc)
-          const num = Math.floor(100 * calc) // initial = ( 1000 * calc )
-          this.formula.points.push(num)
-        } catch (ex) {
-          console.log(ex)
+          const num = Math.floor(100 * calc)
+          this.points.push(num)
         }
+        console.log(this.points)
+      } catch (ex) {
+        console.log(ex)
       }
     }
   },
@@ -58,6 +59,9 @@ export default {
   },
   methods: {
     submit (e) {
+      formulaService.update(this.formula).then(res => {
+        console.log(res)
+      })
       e.preventDefault()
     }
   },
