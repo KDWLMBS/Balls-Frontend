@@ -1,31 +1,31 @@
 <template>
   <div class="bwPattern">
     <form @submit="submit">
-      <input v-for="(field, index) in fields" :key="index" :type="field.type" :placeholder="field.name" v-model="field.value" />
+      <bw-input v-for="(field, index) in fields" :key="index" :type="field.type" :placeholder="field.name" :options="field.options" v-model="field.value" />
       <input type="submit" />
     </form>
   </div>
 </template>
 
 <script>
+import bwInput from '@/components/bwInput'
 import patternService from '@/api/pattern'
 
 export default {
   data () {
     return {
       fields: [
-        { name: 'name', type: 'text' }
-        // { name: 'type', type: 'select', options: [ 'single', 'double' ], value: null },
-        // { name: 'shift', type: 'radio', value: null },
-        // { name: 'shiftDirection', type: 'select', options: [ 'left', 'right' ], value: null },
-        // { name: 'shiftDuration', type: 'number', value: null },
+        { name: 'name', type: 'text', value: '' },
+        { name: 'type', type: 'select', options: [ 'single', 'double' ], value: '' },
+        { name: 'shift', type: 'select', options: [ 'true', 'false' ], value: '' },
+        { name: 'shiftDirection', type: 'select', options: [ 'left', 'right' ], value: '' },
+        { name: 'shiftDuration', type: 'number', value: 0 }
       ],
       valid: () => {
         return true
       }
     }
   },
-
   methods: {
     submit (e) {
       if (this.valid()) {
@@ -44,7 +44,8 @@ export default {
       }
       e.preventDefault()
     }
-  }
+  },
+  components: { bwInput }
 }
 </script>
 
@@ -66,6 +67,16 @@ div.bwPattern {
   > form {
     display: flex;
     flex-direction: column;
+    > div.bwInput {
+      margin: 0.2em 0;
+      &:first-child {
+        margin-top: 0;
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
     > input {
       flex: 1;
       padding: 1em 0.5em;

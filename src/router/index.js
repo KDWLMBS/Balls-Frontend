@@ -61,12 +61,15 @@ const router = new Router({routes})
 router.beforeEach(async (to, from, next) => {
   console.log(to, from, next)
 
+  let success = true
   if (!store.getters.isLoggedIn) {
-    await store.dispatch('me')
+    await store.dispatch('me').catch(() => {
+      success = false
+    })
   }
 
   if (to.meta.requiresAuth) { // check meta
-    if (store.getters.isLoggedIn) {
+    if (store.getters.isLoggedIn && success) {
       next()
     } else {
       next('/auth')

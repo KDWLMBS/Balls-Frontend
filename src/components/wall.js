@@ -7,6 +7,7 @@ export default class Wall {
     this.data = data
     this.current = 0
     this.sliders = []
+    this.offset = 0
     this.now = Date.now()
   }
 
@@ -26,11 +27,16 @@ export default class Wall {
   refresh () {
     this.sliders.splice(0, this.sliders.length)
   }
+
+  reset () {
+    this.sliders.splice(0, this.sliders.length)
+    this.offset = 0
+  }
 }
 
 const pattern = {
   update: (wall) => {
-    if (wall.sliders.length === 0) {
+    if (!wall.sliders.length) {
       for (let i = 0; i < wall.model.frames[wall.current].positions.length; i++) {
         wall.sliders[i] = wall.model.frames[wall.current].positions[i]
       }
@@ -68,15 +74,15 @@ const formula = {
     }
     if (wall.data.play) {
       const newDate = Date.now()
-      if (wall.now + 500 < newDate) {
+      if (wall.now + 250 < newDate) {
         wall.now = Date.now()
-        for (let i = 0; i < wall.data.points.length; i++) {
-          const next = i + 1 < wall.data.points.length ? i + 1 : 0
-          wall.data.points[i] = wall.data.points[next]
-        }
+        wall.offset++
       }
       for (let i = 0; i < wall.sliders.length; i++) {
-        wall.sliders[i] += (wall.data.points[i] - wall.sliders[i]) * 0.1
+        let next = (i + wall.offset) % wall.data.points.length
+        wall.sliders[i] += (wall.data.points[next] - wall.sliders[i]) * (60 / 1000)
+        wall.sliders[i] = Math.max(-wall.c.height / 2, wall.sliders[i])
+        wall.sliders[i] = Math.min(wall.c.height / 2, wall.sliders[i])
       }
     }
   },

@@ -7,12 +7,12 @@ const USER = 'USER'
 
 export default {
   state: {
-    user: {},
+    user: null,
     token: localStorage.getItem('token')
   },
   getters: {
     isLoggedIn (state) {
-      return (state.user && state.token)
+      return !!(state.user && state.token)
     },
     user (state) {
       return state.user

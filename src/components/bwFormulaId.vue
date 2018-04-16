@@ -4,7 +4,6 @@
       <h1>{{formula.name}}</h1>
       <h4>{{formula._id}}</h4>
       <input type="text" :placeholder="formula.formula" v-model="formula.formula" />
-      <input type="checkbox" v-model="play" />
       <div class="simulation">
         <bw-simulation :type="type" :model="formula" :points="points" :play="play" />
       </div>

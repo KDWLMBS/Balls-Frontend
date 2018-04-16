@@ -13,6 +13,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import './default';
+
 html, body {
   display: block;
   height: 100%;
@@ -48,6 +50,25 @@ html, body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: rgba(0,0,0,0.8);
+
+    > * {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      background-color: $white-color;
+      margin: 10vh auto;
+      max-height: 80vh;
+      border-radius: 0.2em;
+      width: 90vw;
+
+      @media screen and (min-width: 720px) {
+        width: calc(100vw / 2);
+      }
+
+      @media screen and (min-width: 1920px) {
+        width: calc(100vw / 3);
+      }
+    }
   }
 }
 </style>

@@ -1,5 +1,7 @@
 <template>
   <div class="bwSimulation" ref="bwSimulation">
+    <button @click="play = !play">Play</button>
+    <button @click="reset">Reset</button>
     <div ref="canvas"></div>
   </div>
 </template>
@@ -18,7 +20,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this)
     this.p5 = new P5(p => {
       p.setup = () => {
         this.canvas = p.createCanvas(this.$refs.bwSimulation.clientWidth, 300)
@@ -45,18 +46,21 @@ export default {
   methods: {
     updateCanvas (e) {
       this.p5.resizeCanvas(this.$refs.bwSimulation.clientWidth, 300)
+      // replace height with this.$refs.bwSimulation.clientHeight and set height in css
+    },
+    reset (e) {
+      this.wall.refresh()
     }
   },
   watch: {
     current (val) {
-      console.log(val)
-      if (!this.play) this.wall.current = val
+      this.wall.current = val
     },
     play (val) {
       this.wall.data.play = val
     },
     points (val) {
-      this.wall.refresh()
+      if (this.wall) this.wall.refresh()
     }
   },
   beforeDestroy () {

@@ -12,7 +12,6 @@
       <div class="frame">
         <input type="range" orient="vertical" min="-100" max="100" v-for="(pos, index) in pattern.frames[current].positions" :key="index" v-model="pattern.frames[current].positions[index]" />
       </div>
-      <input type="checkbox" v-model="play" />
       <div class="simulation">
         <bw-simulation :type="type" :model="pattern" :current="displayIndex" :play="play" />
       </div>

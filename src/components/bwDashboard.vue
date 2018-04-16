@@ -10,14 +10,15 @@
         <div class="row">
           <span>{{ item.name }}</span>
           <div class="actions">
-            <font-awesome-icon :icon="['fas', 'edit']" title="edit" @click="edit(currentMenu.title, item._id)" />
-            <font-awesome-icon :icon="['fas', 'trash']" title="delete" @click="del(currentMenu.title, item._id)" />
+            <font-awesome-icon :icon="['fas', 'play']" title="play" @click="play(item._id)" />
+            <font-awesome-icon :icon="['fas', 'edit']" title="edit" @click="edit(item._id)" />
+            <font-awesome-icon :icon="['fas', 'trash']" title="delete" @click="del(item._id)" />
           </div>
         </div>
         <section class="divider" v-if="index+1 !== currentMenu.list.length" />
       </div>
     </div>
-    <div class="add" @click="add(currentMenu.title)">
+    <div class="add" @click="add()">
       <span>Add</span>
       <font-awesome-icon :icon="['fas', 'plus-circle']" title="add" />
     </div>
@@ -49,13 +50,16 @@ export default {
     })
   },
   methods: {
-    add (title) {
+    add () { // navigation to add page of wheather pattern or formula
+      let title = this.currentMenu.title
       this.$router.push({ path: `/${title}` })
     },
-    edit (title, id) {
+    edit (id) { // navigation to edit page
+      let title = this.currentMenu.title
       this.$router.push({ path: `/${title}/${id}` })
     },
-    del (title, id) {
+    del (id) { // deletion of pattern/formula
+      let title = this.currentMenu.title
       switch (title) {
         case 'Pattern':
           patternService.delete({_id: id}).then(res => {
@@ -71,46 +75,34 @@ export default {
           break
       }
 
-      // could create a class called service and access the current one by doing service[this.currentMenu.title]...
+      // could have created a class called services and access the current one by doing services[this.currentMenu.title]...
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '../default';
+
 div.bwDashboard {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  background: rgba(255,255,255,0.75);
-  margin: 10vh auto;
-  max-height: 80vh;
-  width: 90vw;
-  border-radius: 0.2em;
-
-  @media screen and (min-width: 720px) {
-    width: 50vw;
-  }
-
   > div.header {
     display: flex;
     flex-direction: row;
-    background: rgba(255,255,255,0.75);
     > div.item {
       flex: 1;
       text-align: center;
       transition: 100ms;
       padding: 0.5em 0;
       font-size: 1em;
-      background: rgba(0,0,0,0.5);
-      color: rgba(255,255,255,0.75);
+      background-color: $primary-color;
+      color: $text-color;
       &.active {
-        background: rgba(0,0,0,0.75);
-        color: rgba(255,255,255,0.75);
+        background-color: $active-color;
+        color: $text-color;
       }
       &:hover {
-        background: rgba(0,0,0,0.75);
-        color: rgba(255,255,255,0.75);
+        background-color: $hover-color;
+        color: $text-color;
       }
     }
   }
@@ -130,10 +122,10 @@ div.bwDashboard {
           flex: 1;
           margin: auto 0;
           font-size: 0.8em;
-          color: rgba(0,0,0,0.65);
+          color: $primary-color;
 
           &:hover {
-            color: rgba(0,0,0,0.9);
+            color: $hover-color;
           }
         }
         > div.actions {
@@ -141,10 +133,10 @@ div.bwDashboard {
           transition: 100ms;
           > * {
             margin: 0 0.25em;
-            color: rgba(0,0,0,0.65);
+            color: $primary-color;
             cursor: pointer;
             &:hover {
-              color: rgba(0,0,0,0.9);
+              color: $hover-color;
             }
           }
         }
@@ -158,7 +150,8 @@ div.bwDashboard {
     }
   }
   > div.add {
-    background: rgba(255,255,255,0.75);
+    background-color: $primary-color;
+    color: $text-color;
     padding: 0.5em;
     transition: 100ms;
     text-align: center;
@@ -173,8 +166,8 @@ div.bwDashboard {
     }
 
     &:hover {
-      background: rgba(0,0,0,0.75);
-      color: rgba(255,255,255,0.75);
+      background-color: $hover-color;
+      color: $text-color;
     }
   }
 }
