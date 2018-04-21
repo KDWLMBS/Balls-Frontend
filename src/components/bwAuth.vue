@@ -89,19 +89,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../default';
+
 div.bwAuth {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  background: rgba(255,255,255,0.75);
-  margin: 10vh auto;
-  width: 90vw;
-  border-radius: 0.2em;
-
-  @media screen and (min-width: 720px) {
-    width: 50vw;
-  }
-
   *:focus {
     outline: none;
   }
@@ -109,22 +99,19 @@ div.bwAuth {
   > div.header {
     display: flex;
     flex-direction: row;
-    background: rgba(255,255,255,0.75);
+    background: $primary-color;
     > div.item {
       flex: 1;
       text-align: center;
       transition: 100ms;
       padding: 0.5em 0;
-      font-size: 1.5em;
-      background: rgba(0,0,0,0.5);
-      color: rgba(255,255,255,0.75);
-      &.active {
-        background: rgba(0,0,0,0.75);
-        color: rgba(255,255,255,0.75);
-      }
+      background: $primary-color;
+      color: $text-color;
       &:hover {
-        background: rgba(0,0,0,0.75);
-        color: rgba(255,255,255,0.75);
+        background: $hover-color;
+      }
+      &.active {
+        background: $active-color;
       }
     }
   }
@@ -133,14 +120,18 @@ div.bwAuth {
     flex-direction: column;
     > input {
       flex: 1;
-      padding: 1em 0.5em;
       border-style: none;
+      padding: 0.5em;
       &:last-child {
-        background: rgba(0,0,0,0.5);
-        color: rgba(255,255,255,0.75);
+        padding: 0.5em 0;
+        font-size: 1em;
+        background: $primary-color;
+        color: $text-color;
         &:hover {
-          background: rgba(0,0,0,0.75);
-          color: rgba(255,255,255,0.75);
+          background: $hover-color;
+        }
+        &.active {
+          background: $active-color;
         }
       }
     }
@@ -148,7 +139,7 @@ div.bwAuth {
   > div.message {
     display: flex;
     justify-content: center;
-    font-size: 0.9em;
+    font-size: 1em;
     font-weight: lighter;
     background: rgba(255, 0, 0, 0.5);
     color: rgba(0,0,0,0.75);

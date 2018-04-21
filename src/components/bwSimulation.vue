@@ -1,7 +1,7 @@
 <template>
   <div class="bwSimulation" ref="bwSimulation">
-    <button @click="play = !play">Play</button>
-    <button @click="reset">Reset</button>
+    <!-- <button @click="play = !play">Play</button>
+    <button @click="reset">Reset</button> -->
     <div ref="canvas"></div>
   </div>
 </template>

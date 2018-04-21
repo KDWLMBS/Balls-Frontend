@@ -1,13 +1,14 @@
 <template>
   <div class="bwFormula">
     <form @submit="submit">
-      <input v-for="(field, index) in fields" :key="index" :type="field.type" :placeholder="field.name" v-model="field.value" />
+      <bw-input v-for="(field, index) in fields" :key="index" :type="field.type" :placeholder="field.name" :options="field.options" v-model="field.value" />
       <input type="submit" />
     </form>
   </div>
 </template>
 
 <script>
+import bwInput from '@/components/bwInput'
 import formulaService from '@/api/formula'
 
 export default {
@@ -20,12 +21,6 @@ export default {
         { name: 'maxX', type: 'number' },
         { name: 'minY', type: 'number' },
         { name: 'maxY', type: 'number' }
-        // { name: 'type', type: 'select', options: [ 'single', 'double' ], value: null },
-        // { name: 'shift', type: 'radio', value: null },
-        // { name: 'shiftDirection', type: 'select', options: [ 'left', 'right' ], value: null },
-        // { name: 'shiftDuration', type: 'number', value: null },
-
-        // input component which takes type and renders them correctly
       ],
       valid: () => {
         return true
@@ -37,7 +32,15 @@ export default {
       if (this.valid()) {
         const data = {}
         for (let f of this.fields) {
-          data[f.name] = f.value
+          if (f.type === 'select') {
+            if (f.subtype === 'boolean') {
+              data[f.name] = !!f.value
+            } else {
+              data[f.name] = f.value.toUpperCase()
+            }
+          } else {
+            data[f.name] = f.value
+          }
         }
         data.points = [] // should be done on the server
         formulaService.create(data)
@@ -48,39 +51,36 @@ export default {
       }
       e.preventDefault()
     }
-  }
+  },
+  components: { bwInput }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '../default';
+
 div.bwFormula {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  background: rgba(255,255,255,0.75);
-  margin: 10vh auto;
-  max-height: 80vh;
-  width: 90vw;
-  border-radius: 0.2em;
-
-  @media screen and (min-width: 720px) {
-    width: 50vw;
-  }
-
   > form {
     display: flex;
     flex-direction: column;
+    > div.bwInput {
+      margin-top: 0.25em;
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
     > input {
       flex: 1;
       padding: 1em 0.5em;
       border: 0;
 
       &:last-child {
-        background: rgba(0,0,0,0.5);
-        color: rgba(255,255,255,0.75);
+        background: $primary-color;
+        color: $text-color;
         &:hover {
-          background: rgba(0,0,0,0.75);
-          color: rgba(255,255,255,0.75);
+          background: $hover-color;
+          color: $text-color;
         }
       }
     }

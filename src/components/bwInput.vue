@@ -4,6 +4,7 @@
       <option value selected disabled hidden>{{placeholder}}</option>
       <option v-for="(opt, index) in options" :key="index" :value="opt">{{opt}}</option>
     </select>
+    <button v-if="type === 'submit'" @click="$emit('click')">Save</button>
     <input v-else :type="type" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit('input', $event.target.value)" />
   </div>
 </template>
@@ -18,7 +19,7 @@ export default {
 @import '../default';
 
 div.bwInput {
-    > * {
+  > * {
     display: block;
     width: 100%;
     padding: 1em 0.5em;
@@ -33,6 +34,17 @@ div.bwInput {
     > * {
       padding: 0;
       margin: 0;
+    }
+  }
+
+  > button {
+    background: $primary-color;
+    color: $text-color;
+    &:hover {
+      background: $hover-color;
+    }
+    &:active {
+      background: $active-color;
     }
   }
 }

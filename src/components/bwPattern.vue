@@ -15,11 +15,11 @@ export default {
   data () {
     return {
       fields: [
-        { name: 'name', type: 'text', value: '' },
-        { name: 'type', type: 'select', options: [ 'single', 'double' ], value: '' },
-        { name: 'shift', type: 'select', options: [ 'true', 'false' ], value: '' },
-        { name: 'shiftDirection', type: 'select', options: [ 'left', 'right' ], value: '' },
-        { name: 'shiftDuration', type: 'number', value: 0 }
+        { name: 'name', type: 'text' },
+        { name: 'type', type: 'select', options: [ 'single', 'double' ] },
+        { name: 'shift', type: 'select', subtype: 'boolean', options: [ 'true', 'false' ] },
+        { name: 'shiftDirection', type: 'select', options: [ 'left', 'right' ] },
+        { name: 'shiftDuration', type: 'number' }
       ],
       valid: () => {
         return true
@@ -31,11 +31,19 @@ export default {
       if (this.valid()) {
         const data = {}
         for (let f of this.fields) {
-          data[f.name] = f.value
+          if (f.type === 'select') {
+            if (f.subtype === 'boolean') {
+              data[f.name] = !!f.value
+            } else {
+              data[f.name] = f.value.toUpperCase()
+            }
+          } else {
+            data[f.name] = f.value
+          }
         }
         data.frames = [{ duration: 1, positions: [] }]
         for (let i = 0; i < 30; i++) {
-          data.frames[0].positions.push(Math.random(1) * 100)
+          data.frames[0].positions.push(100 - Math.random(1) * 200)
         }
         patternService.create(data)
           .then((res) => {
@@ -50,30 +58,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../default';
+
 div.bwPattern {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  background: rgba(255,255,255,0.75);
-  margin: 10vh auto;
-  max-height: 80vh;
-  width: 90vw;
-  border-radius: 0.2em;
-
-  @media screen and (min-width: 720px) {
-    width: 50vw;
-  }
-
   > form {
     display: flex;
     flex-direction: column;
     > div.bwInput {
-      margin: 0.2em 0;
+      margin-top: 0.25em;
       &:first-child {
         margin-top: 0;
-      }
-      &:last-child {
-        margin-bottom: 0;
       }
     }
 
@@ -83,11 +77,11 @@ div.bwPattern {
       border: 0;
 
       &:last-child {
-        background: rgba(0,0,0,0.5);
-        color: rgba(255,255,255,0.75);
+        background: $primary-color;
+        color: $text-color;
         &:hover {
-          background: rgba(0,0,0,0.75);
-          color: rgba(255,255,255,0.75);
+          background: $hover-color;
+          color: $text-color;
         }
       }
     }

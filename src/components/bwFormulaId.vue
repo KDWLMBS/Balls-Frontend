@@ -1,19 +1,20 @@
 <template>
   <div class="bwFormulaId">
     <div class="formula" v-if="formula">
-      <h1>{{formula.name}}</h1>
-      <h4>{{formula._id}}</h4>
-      <input type="text" :placeholder="formula.formula" v-model="formula.formula" />
+      <h4 style="text-align: center">Formula: {{formula.name}}</h4>
+      <h5 style="text-align: center">{{formula._id}}</h5>
+      <bw-input v-for="(ref, index) in inputs" :key="index" :type="ref.type" :placeholder="ref.var" v-model="formula[ref.var]" />
       <div class="simulation">
         <bw-simulation :type="type" :model="formula" :points="points" :play="play" />
       </div>
 
-      <button @click="submit">Save</button>
+      <bw-input type="submit" @click="submit" />
     </div>
   </div>
 </template>
 
 <script>
+import bwInput from '@/components/bwInput'
 import bwSimulation from '@/components/bwSimulation'
 import formulaService from '../api/formula'
 import mathjs from 'mathjs'
@@ -24,7 +25,20 @@ export default {
       type: 'Formula',
       formula: {},
       points: [],
-      play: true
+      play: true,
+      inputs: [
+        { type: 'text', var: 'name' },
+        { type: 'text', var: 'formula' },
+        { type: 'text', var: 'minX' },
+        { type: 'text', var: 'maxX' },
+        { type: 'text', var: 'minY' },
+        { type: 'text', var: 'maxY' }
+      ]
+    }
+  },
+  computed: {
+    id () {
+      return this.$route.params.id
     }
   },
   watch: {
@@ -45,11 +59,6 @@ export default {
       }
     }
   },
-  computed: {
-    id () {
-      return this.$route.params.id
-    }
-  },
   created () {
     formulaService.readOne({_id: this.id}).then(res => {
       this.formula = res
@@ -61,29 +70,17 @@ export default {
       formulaService.update(this.formula).then(res => {
         console.log(res)
       })
-      e.preventDefault()
+      if (e) e.preventDefault()
     }
   },
-  components: { bwSimulation }
+  components: { bwSimulation, bwInput }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '../default';
+
 div.bwFormulaId {
-  background: rgba(255,255,255,0.75);
-  margin: 5em auto;
-  width: 90vw;
-  border-radius: 0.2em;
-
-  @media screen and (min-width: 720px) {
-    width: 50vw;
-  }
-
-  > * {
-    padding: 1em;
-    text-align: center;
-  }
-
   > div.pattern {
     > button {
       width: 100%;
@@ -95,6 +92,21 @@ div.bwFormulaId {
       &:hover {
         background: white;
         color: black;
+      }
+    }
+  }
+
+  input {
+    flex: 1;
+    padding: 1em 0.5em;
+    border: 0;
+
+    &:last-child {
+      background: $primary-color;
+      color: $text-color;
+      &:hover {
+        background: $hover-color;
+        color: $text-color;
       }
     }
   }
