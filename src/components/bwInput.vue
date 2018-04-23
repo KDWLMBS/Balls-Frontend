@@ -4,7 +4,7 @@
       <option value selected disabled hidden>{{placeholder}}</option>
       <option v-for="(opt, index) in options" :key="index" :value="opt">{{opt}}</option>
     </select>
-    <button v-if="type === 'submit'" @click="$emit('click')">Save</button>
+    <button v-else-if="type.toLowerCase() === 'submit'" @click="$emit('click')">Save</button>
     <input v-else :type="type" :placeholder="placeholder" v-bind:value="value" v-on:input="$emit('input', $event.target.value)" />
   </div>
 </template>

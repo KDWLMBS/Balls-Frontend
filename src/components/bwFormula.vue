@@ -2,7 +2,7 @@
   <div class="bwFormula">
     <form @submit="submit">
       <bw-input v-for="(field, index) in fields" :key="index" :type="field.type" :placeholder="field.name" :options="field.options" v-model="field.value" />
-      <input type="submit" />
+      <bw-input type="submit" />
     </form>
   </div>
 </template>
@@ -74,15 +74,6 @@ div.bwFormula {
       flex: 1;
       padding: 1em 0.5em;
       border: 0;
-
-      &:last-child {
-        background: $primary-color;
-        color: $text-color;
-        &:hover {
-          background: $hover-color;
-          color: $text-color;
-        }
-      }
     }
   }
 }

@@ -13,7 +13,7 @@
         <input type="range" orient="vertical" min="-100" max="100" v-for="(pos, index) in pattern.frames[current].positions" :key="index" v-model="pattern.frames[current].positions[index]" />
       </div>
       <div class="simulation">
-        <bw-simulation :type="type" :model="pattern" :current="displayIndex" :play="play" />
+        <bw-simulation type="Pattern" :model="pattern" :current="displayIndex" :play="play" />
       </div>
       <button @click="submit">Save</button>
     </div>
@@ -27,7 +27,6 @@ import patternService from '../api/pattern'
 export default {
   data () {
     return {
-      type: 'Pattern',
       pattern: {},
       current: null,
       pages: [],
@@ -126,21 +125,8 @@ export default {
 
 <style lang="scss" scoped>
 div.bwPatternId {
-  background: rgba(255,255,255,0.75);
-  margin: 5em auto;
-  width: 90vw;
-  border-radius: 0.2em;
-
-  @media screen and (min-width: 720px) {
-    width: 50vw;
-  }
-
-  > * {
-    padding: 1em;
-    text-align: center;
-  }
-
   > div.pattern {
+    text-align: center;
     > div.pages {
       display: flex;
       flex-direction: row;

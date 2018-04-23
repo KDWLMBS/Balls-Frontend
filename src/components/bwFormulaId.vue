@@ -42,21 +42,30 @@ export default {
     }
   },
   watch: {
-    'formula.formula': function () {
-      const absX = Math.abs(this.formula.minX - this.formula.maxX)
+    formula: {
+      handler: function () {
+        const absX = Math.abs(this.formula.minX - this.formula.maxX)
 
-      const len = 30
-      try {
-        this.points.splice(0, this.points.length)
-        for (let i = 0; i < len; i++) {
-          const calc = mathjs.eval(this.formula.formula, { x: this.formula.minX + i * (absX / len) })
-          const num = Math.floor(100 * calc)
-          this.points.push(num)
+        const len = 30
+        try {
+          this.points.splice(0, this.points.length)
+          // for (let i = 0; i < len; i++) {
+          //   const calc = mathjs.eval(this.formula.formula, { x: this.formula.minX + i * (absX / len) })
+          //   const num = Math.floor(100 * calc)
+          //   this.points.push(num)
+          // }
+          const step = Math.abs(this.formula.minX - this.formula.maxX) / len
+          for (let i = 0; i < len; i++) {
+            const calc = mathjs.eval(this.formula.formula, { x: this.formula.minX + i * step })
+            this.points.push(Math.floor(100 * calc))
+          }
+
+          console.log(this.points)
+        } catch (ex) {
+          console.log(ex)
         }
-        console.log(this.points)
-      } catch (ex) {
-        console.log(ex)
-      }
+      },
+      deep: true
     }
   },
   created () {
